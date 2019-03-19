@@ -76,6 +76,7 @@ void ButtonInit(void)
 
 //comment
 //test comment
+//another test comment 
 
     // initialize ADC0 peripheral
     SysCtlPeripheralEnable(SYSCTL_PERIPH_ADC0);
