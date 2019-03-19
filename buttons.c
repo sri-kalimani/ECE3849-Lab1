@@ -56,24 +56,43 @@ void ButtonInit(void)
     SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOK);
     GPIOPinTypeADC(GPIO_PORTK_BASE, GPIO_PIN_1);
 
-//adding joystick select button
+    //adding joystick select button
     //GPIO PD_4 = Joystick select button
     SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOD);
     GPIOPinTypeGPIOInput(GPIO_PORTD_BASE, GPIO_PIN_4);
     GPIOPadConfigSet(GPIO_PORTD_BASE, GPIO_PIN_4, GPIO_STRENGTH_2MA, GPIO_PIN_TYPE_STD);
 
-//adding booster button 1
+    //adding booster button 1
     //GPIO PH_1 = BoosterPack button 1
     SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOH);
     GPIOPinTypeGPIOInput(GPIO_PORTH_BASE, GPIO_PIN_1);
     GPIOPadConfigSet(GPIO_PORTH_BASE, GPIO_PIN_1, GPIO_STRENGTH_2MA, GPIO_PIN_TYPE_STD_WPU);
 
-//adding booster button 2
+    //adding booster button 2
     //GPIO PK_6 = BoosterPack button 2
     SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOK);
     GPIOPinTypeGPIOInput(GPIO_PORTK_BASE, GPIO_PIN_6);
     GPIOPadConfigSet(GPIO_PORTK_BASE, GPIO_PIN_6, GPIO_STRENGTH_2MA, GPIO_PIN_TYPE_STD_WPU);
 
+    //initialize ADC1 peripheral 
+    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIO?);
+    GPIOPinTypeADC(...); // GPIO setup for analog input AIN3
+    SysCtlPeripheralEnable(SYSCTL_PERIPH_ADC0); // initialize ADC peripherals
+    SysCtlPeripheralEnable(SYSCTL_PERIPH_ADC1);
+    // ADC clock
+    uint32_t pll_frequency = SysCtlFrequencyGet(CRYSTAL_FREQUENCY);
+    uint32_t pll_divisor = (pll_frequency - 1) / (16 * ADC_SAMPLING_RATE) + 1; //round up
+    ADCClockConfigSet(ADC0_BASE, ADC_CLOCK_SRC_PLL | ADC_CLOCK_RATE_FULL, pll_divisor);
+    ADCClockConfigSet(ADC1_BASE, ADC_CLOCK_SRC_PLL | ADC_CLOCK_RATE_FULL, pll_divisor);
+    ADCSequenceDisable(...); // choose ADC1 sequence 0; disable before configuring
+    ADCSequenceConfigure(...); // specify the "Always" trigger
+    ADCSequenceStepConfigure(...);// in the 0th step, sample channel 3 (AIN3)
+    // enable interrupt, and make it the end of sequence
+    ADCSequenceEnable(...); // enable the sequence. it is now sampling
+    ADCIntEnable(...); // enable sequence 0 interrupt in the ADC1 peripheral
+    IntPrioritySet(...); // set ADC1 sequence 0 interrupt priority
+    IntEnable(...); // enable ADC1 sequence 0 interrupt in int. controller
+    
     // initialize ADC0 peripheral
     SysCtlPeripheralEnable(SYSCTL_PERIPH_ADC0);
     uint32_t pll_frequency = SysCtlFrequencyGet(CRYSTAL_FREQUENCY);
