@@ -95,8 +95,8 @@ void ButtonInit(void)
     ADCClockConfigSet(ADC1_BASE, ADC_CLOCK_SRC_PLL | ADC_CLOCK_RATE_FULL, pll_divisor);
     ADCSequenceDisable(ADC1_BASE, 0); // choose ADC1 sequence 0; disable before configuring
     ADCSequenceConfigure(ADC1_BASE, 0, ADC_TRIGGER_ALWAYS, 0 /*highest priority*/); // specify the "Always" trigger
-    IntEnable(ADC_CTL_IE | ADC_CTL_END);// enable interrupt, and make it the end of sequence
-    ADCSequenceStepConfigure(ADC1_BASE, 0, 0, ADC_CTL_CH3);// in the 0th step, sample channel 3 (AIN3)
+    // enable interrupt, and make it the end of sequence
+    ADCSequenceStepConfigure(ADC1_BASE, 0, 0, ADC_CTL_CH3 | ADC_CTL_IE | ADC_CTL_END);// in the 0th step, sample channel 3 (AIN3)
     ADCSequenceEnable(ADC1_BASE, 0); // enable the sequence. it is now sampling
     ADCIntEnable(ADC1_BASE, 0); // enable sequence 0 interrupt in the ADC1 peripheral
     IntPrioritySet(ADC_ISR, 0); // set ADC1 sequence 0 interrupt priority
@@ -120,14 +120,14 @@ void ButtonInit(void)
 
 void ADC_ISR(void)
 {
-ADC1_ISC_R = ADC_ISC_IN0; // clear ADC1 sequence0 interrupt flag in the ADCISC register
-if (ADC1_OSTAT_R & ADC_OSTAT_OV0) { // check for ADC FIFO overflow
-gADCErrors++; // count errors
-ADC1_OSTAT_R = ADC_OSTAT_OV0; // clear overflow condition
-}
-gADCBuffer[
-gADCBufferIndex = ADC_BUFFER_WRAP(gADCBufferIndex + 1)
-] = ADC1_SSFIFO0_R |= 0x8000; // read sample from the ADC1 sequence 0 FIFO
+    ADC1_ISC_R = ADC_ISC_IN0; // clear ADC1 sequence0 interrupt flag in the ADCISC register
+    if (ADC1_OSTAT_R & ADC_OSTAT_OV0) { // check for ADC FIFO overflow
+        gADCErrors++; // count errors
+        ADC1_OSTAT_R = ADC_OSTAT_OV0; // clear overflow condition
+    }
+    gADCBuffer[
+        gADCBufferIndex = ADC_BUFFER_WRAP(gADCBufferIndex + 1)
+    ] = ADC1_SSFIFO0_R; // read sample from the ADC1 sequence 0 FIFO
 }
 
 // update the debounced button state gButtons
