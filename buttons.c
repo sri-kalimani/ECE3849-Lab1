@@ -30,6 +30,8 @@ uint32_t gADCSamplingRate;      // [Hz] actual ADC sampling rate
 extern uint32_t gSystemClock;   // [Hz] system clock frequency
 extern volatile uint32_t gTime; // time in hundredths of a second
 
+volatile int32_t gADCBufferIndex = ADC_BUFFER_SIZE - 1;
+
 // initialize all button and joystick handling hardware
 void ButtonInit(void)
 {
@@ -75,9 +77,6 @@ void ButtonInit(void)
     GPIOPinTypeGPIOInput(GPIO_PORTK_BASE, GPIO_PIN_6);
     GPIOPadConfigSet(GPIO_PORTK_BASE, GPIO_PIN_6, GPIO_STRENGTH_2MA, GPIO_PIN_TYPE_STD_WPU);
 
-//comment
-//test comment
-
     //initialize ADC1 peripheral 
     //GPIO PE_0 = AIN3
     SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOE);
@@ -95,8 +94,8 @@ void ButtonInit(void)
     ADCSequenceStepConfigure(ADC1_BASE, 0, 0, ADC_CTL_CH3 | ADC_CTL_IE | ADC_CTL_END);// in the 0th step, sample channel 3 (AIN3)
     ADCSequenceEnable(ADC1_BASE, 0); // enable the sequence. it is now sampling
     ADCIntEnable(ADC1_BASE, 0); // enable sequence 0 interrupt in the ADC1 peripheral
-    IntPrioritySet(ADC_ISR, 0); // set ADC1 sequence 0 interrupt priority
-    IntEnable(ADC_ISR); // enable ADC1 sequence 0 interrupt in int. controller
+    IntPrioritySet(INT_ADC1SS0, 0); // set ADC1 sequence 0 interrupt priority
+    IntEnable(INT_ADC1SS0); // enable ADC1 sequence 0 interrupt in int. controller
     
     // initialize ADC0 peripheral
     SysCtlPeripheralEnable(SYSCTL_PERIPH_ADC0);
