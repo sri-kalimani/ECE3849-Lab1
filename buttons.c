@@ -18,14 +18,11 @@
 #include "driverlib/adc.h"
 #include "sysctl_pll.h"
 #include "buttons.h"
-<<<<<<< HEAD
-=======
 #include "inc/tm4c1294ncpdt.h"
 
 volatile int32_t gADCBufferIndex = ADC_BUFFER_SIZE - 1; // latest sample index
 volatile uint16_t gADCBuffer[ADC_BUFFER_SIZE]; // circular buffer
 volatile uint32_t gADCErrors; // number of missed ADC deadlines
->>>>>>> c4e0b39091d5bc2cac93c71b539b7f028c02e508
 
 // public globals
 volatile uint32_t gButtons = 0; // debounced button state, one per bit in the lowest bits
@@ -82,11 +79,9 @@ void ButtonInit(void)
     GPIOPinTypeGPIOInput(GPIO_PORTK_BASE, GPIO_PIN_6);
     GPIOPadConfigSet(GPIO_PORTK_BASE, GPIO_PIN_6, GPIO_STRENGTH_2MA, GPIO_PIN_TYPE_STD_WPU);
 
-<<<<<<< HEAD
 //comment
 //test comment
 
-=======
     //initialize ADC1 peripheral 
     //GPIO PE_0 = AIN3
     SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOE);
@@ -107,7 +102,6 @@ void ButtonInit(void)
     IntPrioritySet(ADC_ISR, 0); // set ADC1 sequence 0 interrupt priority
     IntEnable(ADC_ISR); // enable ADC1 sequence 0 interrupt in int. controller
     
->>>>>>> ee7f9da4cca7b7a131e1e441dd5dd2fd988830b0
     // initialize ADC0 peripheral
     SysCtlPeripheralEnable(SYSCTL_PERIPH_ADC0);
     uint32_t pll_frequency = SysCtlFrequencyGet(CRYSTAL_FREQUENCY);
