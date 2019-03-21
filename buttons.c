@@ -82,9 +82,32 @@ void ButtonInit(void)
     GPIOPinTypeGPIOInput(GPIO_PORTK_BASE, GPIO_PIN_6);
     GPIOPadConfigSet(GPIO_PORTK_BASE, GPIO_PIN_6, GPIO_STRENGTH_2MA, GPIO_PIN_TYPE_STD_WPU);
 
+<<<<<<< HEAD
 //comment
 //test comment
 
+=======
+    //initialize ADC1 peripheral 
+    //GPIO PE_0 = AIN3
+    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOE);
+    GPIOPinTypeADC(GPIO_PORTE_BASE, GPIO_PIN_0); // GPIO setup for analog input AIN3
+    SysCtlPeripheralEnable(SYSCTL_PERIPH_ADC0); // initialize ADC peripherals
+    SysCtlPeripheralEnable(SYSCTL_PERIPH_ADC1);
+    // ADC clock
+    uint32_t pll_frequency = SysCtlFrequencyGet(CRYSTAL_FREQUENCY);
+    uint32_t pll_divisor = (pll_frequency - 1) / (16 * ADC_SAMPLING_RATE) + 1; //round up
+    ADCClockConfigSet(ADC0_BASE, ADC_CLOCK_SRC_PLL | ADC_CLOCK_RATE_FULL, pll_divisor);
+    ADCClockConfigSet(ADC1_BASE, ADC_CLOCK_SRC_PLL | ADC_CLOCK_RATE_FULL, pll_divisor);
+    ADCSequenceDisable(ADC1_BASE, 0); // choose ADC1 sequence 0; disable before configuring
+    ADCSequenceConfigure(ADC1_BASE, 0, ADC_TRIGGER_ALWAYS, 0 /*highest priority*/); // specify the "Always" trigger
+    IntEnable(ADC_CTL_IE | ADC_CTL_END);// enable interrupt, and make it the end of sequence
+    ADCSequenceStepConfigure(ADC1_BASE, 0, 0, ADC_CTL_CH3);// in the 0th step, sample channel 3 (AIN3)
+    ADCSequenceEnable(ADC1_BASE, 0); // enable the sequence. it is now sampling
+    ADCIntEnable(ADC1_BASE, 0); // enable sequence 0 interrupt in the ADC1 peripheral
+    IntPrioritySet(ADC_ISR, 0); // set ADC1 sequence 0 interrupt priority
+    IntEnable(ADC_ISR); // enable ADC1 sequence 0 interrupt in int. controller
+    
+>>>>>>> ee7f9da4cca7b7a131e1e441dd5dd2fd988830b0
     // initialize ADC0 peripheral
     SysCtlPeripheralEnable(SYSCTL_PERIPH_ADC0);
     uint32_t pll_frequency = SysCtlFrequencyGet(CRYSTAL_FREQUENCY);
@@ -103,14 +126,14 @@ void ButtonInit(void)
 
 void ADC_ISR(void)
 {
-<...>; // clear ADC1 sequence0 interrupt flag in the ADCISC register
+ADC1_ISC_R = ADC_ISC_IN0; // clear ADC1 sequence0 interrupt flag in the ADCISC register
 if (ADC1_OSTAT_R & ADC_OSTAT_OV0) { // check for ADC FIFO overflow
 gADCErrors++; // count errors
 ADC1_OSTAT_R = ADC_OSTAT_OV0; // clear overflow condition
 }
 gADCBuffer[
 gADCBufferIndex = ADC_BUFFER_WRAP(gADCBufferIndex + 1)
-] = <...>; // read sample from the ADC1 sequence 0 FIFO
+] = ADC1_SSFIFO0_R |= 0x8000; // read sample from the ADC1 sequence 0 FIFO
 }
 
 // update the debounced button state gButtons
