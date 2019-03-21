@@ -18,6 +18,14 @@
 #include "driverlib/adc.h"
 #include "sysctl_pll.h"
 #include "buttons.h"
+<<<<<<< HEAD
+=======
+#include "inc/tm4c1294ncpdt.h"
+
+volatile int32_t gADCBufferIndex = ADC_BUFFER_SIZE - 1; // latest sample index
+volatile uint16_t gADCBuffer[ADC_BUFFER_SIZE]; // circular buffer
+volatile uint32_t gADCErrors; // number of missed ADC deadlines
+>>>>>>> c4e0b39091d5bc2cac93c71b539b7f028c02e508
 
 // public globals
 volatile uint32_t gButtons = 0; // debounced button state, one per bit in the lowest bits
@@ -91,6 +99,18 @@ void ButtonInit(void)
     ADCSequenceStepConfigure(ADC0_BASE, 0, 1, ADC_CTL_CH17 | ADC_CTL_IE | ADC_CTL_END);  // Joystick VER(Y)
     ADCSequenceEnable(ADC0_BASE, 0);
 
+}
+
+void ADC_ISR(void)
+{
+<...>; // clear ADC1 sequence0 interrupt flag in the ADCISC register
+if (ADC1_OSTAT_R & ADC_OSTAT_OV0) { // check for ADC FIFO overflow
+gADCErrors++; // count errors
+ADC1_OSTAT_R = ADC_OSTAT_OV0; // clear overflow condition
+}
+gADCBuffer[
+gADCBufferIndex = ADC_BUFFER_WRAP(gADCBufferIndex + 1)
+] = <...>; // read sample from the ADC1 sequence 0 FIFO
 }
 
 // update the debounced button state gButtons
