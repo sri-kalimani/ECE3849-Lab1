@@ -112,6 +112,18 @@ void ButtonInit(void)
 
 }
 
+void ADC_ISR(void)
+{
+<...>; // clear ADC1 sequence0 interrupt flag in the ADCISC register
+if (ADC1_OSTAT_R & ADC_OSTAT_OV0) { // check for ADC FIFO overflow
+gADCErrors++; // count errors
+ADC1_OSTAT_R = ADC_OSTAT_OV0; // clear overflow condition
+}
+gADCBuffer[
+gADCBufferIndex = ADC_BUFFER_WRAP(gADCBufferIndex + 1)
+] = <...>; // read sample from the ADC1 sequence 0 FIFO
+}
+
 // update the debounced button state gButtons
 void ButtonDebounce(uint32_t buttons)
 {
