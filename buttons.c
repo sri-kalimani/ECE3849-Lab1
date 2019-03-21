@@ -20,10 +20,6 @@
 #include "buttons.h"
 #include "inc/tm4c1294ncpdt.h"
 
-volatile int32_t gADCBufferIndex = ADC_BUFFER_SIZE - 1; // latest sample index
-volatile uint16_t gADCBuffer[ADC_BUFFER_SIZE]; // circular buffer
-volatile uint32_t gADCErrors; // number of missed ADC deadlines
-
 // public globals
 volatile uint32_t gButtons = 0; // debounced button state, one per bit in the lowest bits
                                 // button is pressed if its bit is 1, not pressed if 0
@@ -104,8 +100,8 @@ void ButtonInit(void)
     
     // initialize ADC0 peripheral
     SysCtlPeripheralEnable(SYSCTL_PERIPH_ADC0);
-    uint32_t pll_frequency = SysCtlFrequencyGet(CRYSTAL_FREQUENCY);
-    uint32_t pll_divisor = (pll_frequency - 1) / (16 * ADC_SAMPLING_RATE) + 1; // round divisor up
+//    pll_frequency = SysCtlFrequencyGet(CRYSTAL_FREQUENCY);
+//    uint32_t pll_divisor = (pll_frequency - 1) / (16 * ADC_SAMPLING_RATE) + 1; // round divisor up
     gADCSamplingRate = pll_frequency / (16 * pll_divisor); // actual sampling rate may differ from ADC_SAMPLING_RATE
     ADCClockConfigSet(ADC0_BASE, ADC_CLOCK_SRC_PLL | ADC_CLOCK_RATE_FULL, pll_divisor); // only ADC0 has PLL clock divisor control
 
