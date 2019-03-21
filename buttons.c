@@ -20,6 +20,9 @@
 #include "buttons.h"
 #include "inc/tm4c1294ncpdt.h"
 
+volatile int32_t gADCBufferIndex = ADC_BUFFER_SIZE - 1; // latest sample index
+volatile uint16_t gADCBuffer[ADC_BUFFER_SIZE]; // circular buffer
+volatile uint32_t gADCErrors; // number of missed ADC deadlines
 
 // public globals
 volatile uint32_t gButtons = 0; // debounced button state, one per bit in the lowest bits
