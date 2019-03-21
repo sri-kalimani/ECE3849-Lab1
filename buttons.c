@@ -18,8 +18,6 @@
 #include "driverlib/adc.h"
 #include "sysctl_pll.h"
 #include "buttons.h"
-#include "inc/tm4c1294ncpdt.h"
-
 
 // public globals
 volatile uint32_t gButtons = 0; // debounced button state, one per bit in the lowest bits
@@ -58,46 +56,29 @@ void ButtonInit(void)
     SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOK);
     GPIOPinTypeADC(GPIO_PORTK_BASE, GPIO_PIN_1);
 
-    //adding joystick select button
+//adding joystick select button
     //GPIO PD_4 = Joystick select button
     SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOD);
     GPIOPinTypeGPIOInput(GPIO_PORTD_BASE, GPIO_PIN_4);
     GPIOPadConfigSet(GPIO_PORTD_BASE, GPIO_PIN_4, GPIO_STRENGTH_2MA, GPIO_PIN_TYPE_STD);
 
-    //adding booster button 1
+//adding booster button 1
     //GPIO PH_1 = BoosterPack button 1
     SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOH);
     GPIOPinTypeGPIOInput(GPIO_PORTH_BASE, GPIO_PIN_1);
     GPIOPadConfigSet(GPIO_PORTH_BASE, GPIO_PIN_1, GPIO_STRENGTH_2MA, GPIO_PIN_TYPE_STD_WPU);
 
-    //adding booster button 2
+//adding booster button 2
     //GPIO PK_6 = BoosterPack button 2
     SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOK);
     GPIOPinTypeGPIOInput(GPIO_PORTK_BASE, GPIO_PIN_6);
     GPIOPadConfigSet(GPIO_PORTK_BASE, GPIO_PIN_6, GPIO_STRENGTH_2MA, GPIO_PIN_TYPE_STD_WPU);
 
-    //initialize ADC1 peripheral 
-    //GPIO PE_0 = AIN3
-    SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOE);
-    GPIOPinTypeADC(GPIO_PORTE_BASE, GPIO_PIN_0); // GPIO setup for analog input AIN3
-    SysCtlPeripheralEnable(SYSCTL_PERIPH_ADC0); // initialize ADC peripherals
-    SysCtlPeripheralEnable(SYSCTL_PERIPH_ADC1);
-    // ADC clock
-    uint32_t pll_frequency = SysCtlFrequencyGet(CRYSTAL_FREQUENCY);
-    uint32_t pll_divisor = (pll_frequency - 1) / (16 * ADC_SAMPLING_RATE) + 1; //round up
-    ADCClockConfigSet(ADC0_BASE, ADC_CLOCK_SRC_PLL | ADC_CLOCK_RATE_FULL, pll_divisor);
-    ADCClockConfigSet(ADC1_BASE, ADC_CLOCK_SRC_PLL | ADC_CLOCK_RATE_FULL, pll_divisor);
-    ADCSequenceDisable(ADC1_BASE, 0); // choose ADC1 sequence 0; disable before configuring
-    ADCSequenceConfigure(ADC1_BASE, 0, ADC_TRIGGER_ALWAYS, 0 /*highest priority*/); // specify the "Always" trigger
-    ADCSequenceStepConfigure(ADC1_BASE, 0, 0, ADC_CTL_CH3);// in the 0th step, sample channel 3 (AIN3)
-    // enable interrupt, and make it the end of sequence
-    ADCSequenceEnable(ADC1_BASE, 0); // enable the sequence. it is now sampling
-    ADCIntEnable(ADC1_BASE, 0); // enable sequence 0 interrupt in the ADC1 peripheral
-    IntPrioritySet(ADC_ISR, 0); // set ADC1 sequence 0 interrupt priority
-    IntEnable(ADC_ISR); // enable ADC1 sequence 0 interrupt in int. controller
-    
+//comment
+//test comment
+
     // initialize ADC0 peripheral
-//    SysCtlPeripheralEnable(SYSCTL_PERIPH_ADC0);
+    SysCtlPeripheralEnable(SYSCTL_PERIPH_ADC0);
     uint32_t pll_frequency = SysCtlFrequencyGet(CRYSTAL_FREQUENCY);
     uint32_t pll_divisor = (pll_frequency - 1) / (16 * ADC_SAMPLING_RATE) + 1; // round divisor up
     gADCSamplingRate = pll_frequency / (16 * pll_divisor); // actual sampling rate may differ from ADC_SAMPLING_RATE
@@ -105,7 +86,7 @@ void ButtonInit(void)
 
     // initialize ADC sampling sequence
     ADCSequenceDisable(ADC0_BASE, 0);
-    ADCSequenceConfigure(ADC0_BASE, 0, ADC_TRIGGER_PROCESSOR, 1 /*second highest priority*/);
+    ADCSequenceConfigure(ADC0_BASE, 0, ADC_TRIGGER_PROCESSOR, 0);
     ADCSequenceStepConfigure(ADC0_BASE, 0, 0, ADC_CTL_CH13);                             // Joystick HOR(X)
     ADCSequenceStepConfigure(ADC0_BASE, 0, 1, ADC_CTL_CH17 | ADC_CTL_IE | ADC_CTL_END);  // Joystick VER(Y)
     ADCSequenceEnable(ADC0_BASE, 0);
