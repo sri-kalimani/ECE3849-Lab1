@@ -44,7 +44,7 @@ extern uint32_t gJoystick[2];       // joystick coordinates
 extern uint32_t gADCSamplingRate;   // [Hz] actual ADC sampling rate
 volatile int16_t gADCBuffer[ADC_BUFFER_SIZE]; // circular buffer
 volatile int32_t gWaveformBuffer[BUFFER_COPY_SIZE];
-volatile int32_t triggerBuffer[3] = 0;
+volatile int32_t triggerBuffer[3];
 volatile uint32_t gADCErrors; // number of missed ADC deadlines
 
 // initialize all button and joystick handling hardware

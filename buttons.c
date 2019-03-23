@@ -138,8 +138,20 @@ void ADC_ISR(void)
 
 void WAVEFORM_ISR(void){
 
-    gWaveformBuffer = gADCBuffer[(gADCBufferIndex - 65) : (gADCBufferIndex - 1)];
-
+    gWaveformBuffer[0] = gADCBuffer[(gADCBufferIndex - 65)];
+    gWaveformBuffer[1] = gADCBuffer[(gADCBufferIndex - 64)];
+    gWaveformBuffer[2] = gADCBuffer[(gADCBufferIndex - 63)];
+    gWaveformBuffer[3] = gADCBuffer[(gADCBufferIndex - 62)];
+    gWaveformBuffer[4] = gADCBuffer[(gADCBufferIndex - 61)];
+    gWaveformBuffer[5] = gADCBuffer[(gADCBufferIndex - 60)];
+    gWaveformBuffer[6] = gADCBuffer[(gADCBufferIndex - 59)];
+    gWaveformBuffer[7] = gADCBuffer[(gADCBufferIndex - 58)];
+    gWaveformBuffer[8] = gADCBuffer[(gADCBufferIndex - 57)];
+    gWaveformBuffer[9] = gADCBuffer[(gADCBufferIndex - 56)];
+    gWaveformBuffer[10] = gADCBuffer[(gADCBufferIndex - 55)];
+    gWaveformBuffer[11] = gADCBuffer[(gADCBufferIndex - 54)];
+    //fill in with rest
+    gWaveformBuffer[63] = gADCBuffer[(gADCBufferIndex - 1)];
 }
 
 // update the debounced button state gButtons
