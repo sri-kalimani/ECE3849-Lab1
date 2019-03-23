@@ -131,10 +131,14 @@ void ADC_ISR(void)
     triggerBuffer[1] = temp0;
     triggerBuffer[0] = gADCBuffer[gADCBufferIndex];
 
+    if(triggerBuffer[0] <= 0 && triggerBuffer[1] == 0 && triggerBuffer[2] > 0){
+        WAVEFORM_ISR();
+    }
 }
 
 void WAVEFORM_ISR(void){
 
+    gWaveformBuffer = gADCBuffer[(gADCBufferIndex - 65) : (gADCBufferIndex - 1)];
 
 }
 
