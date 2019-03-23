@@ -1,7 +1,7 @@
 ******************************************************************************
                   TI ARM Linker PC v18.1.2                     
 ******************************************************************************
->> Linked Thu Mar 21 16:39:57 2019
+>> Linked Sat Mar 23 17:28:08 2019
 
 OUTPUT FILE NAME:   <ece3849_lab1_skalimani_cradlermandile2.out>
 ENTRY POINT SYMBOL: "_c_int00_noargs"  address: 0000374d
@@ -12,7 +12,7 @@ MEMORY CONFIGURATION
          name            origin    length      used     unused   attr    fill
 ----------------------  --------  ---------  --------  --------  ----  --------
   FLASH                 00000000   00100000  00004460  000fbba0  R  X
-  SRAM                  20000000   00040000  0000986e  00036792  RW X
+  SRAM                  20000000   00040000  00009872  0003678e  RW X
 
 
 SEGMENT ALLOCATION MAP
@@ -24,10 +24,10 @@ run origin  load origin   length   init length attrs members
   00000208    00000208    000039bc   000039bc    r-x .text
   00003bc4    00003bc4    0000085c   0000085c    r-- .const
   00004420    00004420    00000040   00000040    r-- .cinit
-20000000    20000000    00009870   00000000    rw-
-  20000000    20000000    00008040   00000000    rw- .data
-  20008040    20008040    0000102e   00000000    rw- .bss
-  20009070    20009070    00000800   00000000    rw- .stack
+20000000    20000000    00009878   00000000    rw-
+  20000000    20000000    00008044   00000000    rw- .data
+  20008044    20008044    0000102e   00000000    rw- .bss
+  20009078    20009078    00000800   00000000    rw- .stack
 
 
 SECTION ALLOCATION MAP
@@ -172,42 +172,42 @@ section   page    origin      length       input sections
                   00004418    00000008     driverlib.lib : sysctl.obj (.const)
 
 .cinit     0    00004420    00000040     
-                  00004420    00000018     (.cinit..data.load) [load image, compression = lzss]
-                  00004438    0000000c     (__TI_handler_table)
-                  00004444    00000004     --HOLE-- [fill = 0]
+                  00004420    0000001b     (.cinit..data.load) [load image, compression = lzss]
+                  0000443b    00000001     --HOLE-- [fill = 0]
+                  0000443c    0000000c     (__TI_handler_table)
                   00004448    00000008     (.cinit..bss.load) [load image, compression = zero_init]
                   00004450    00000010     (__TI_cinit_table)
 
 .init_array 
 *          0    00000000    00000000     UNINITIALIZED
 
-.data      0    20000000    00008040     UNINITIALIZED
+.data      0    20000000    00008044     UNINITIALIZED
                   20000000    00008000     Crystalfontz128x128_ST7735.obj (.data:Lcd_buffer)
                   20008000    00000024     buttons.obj (.data:count$2)
-                  20008024    0000000a     buttons.obj (.data)
-                  2000802e    00000002     --HOLE--
-                  20008030    00000008     buttons.obj (.data:gJoystick)
-                  20008038    00000004     main.obj (.data)
-                  2000803c    00000004     rtsv7M4_T_le_v4SPD16_eabi.lib : errno.c.obj (.data)
+                  20008024    0000000e     buttons.obj (.data)
+                  20008032    00000002     --HOLE--
+                  20008034    00000008     buttons.obj (.data:gJoystick)
+                  2000803c    00000004     main.obj (.data)
+                  20008040    00000004     rtsv7M4_T_le_v4SPD16_eabi.lib : errno.c.obj (.data)
 
-.bss       0    20008040    0000102e     UNINITIALIZED
-                  20008040    00001000     (.common:gADCBuffer)
-                  20009040    00000014     buttons.obj (.bss:state$1)
-                  20009054    00000004     (.common:gADCErrors)
-                  20009058    00000004     (.common:gADCSamplingRate)
-                  2000905c    00000004     (.common:gSystemClock)
-                  20009060    00000004     (.common:g_psGrLibDefaults)
-                  20009064    00000002     (.common:Lcd_ScreenHeigth)
-                  20009066    00000002     (.common:Lcd_ScreenWidth)
-                  20009068    00000002     (.common:Lcd_TouchTrim)
-                  2000906a    00000001     (.common:Lcd_FlagRead)
-                  2000906b    00000001     (.common:Lcd_FontSolid)
-                  2000906c    00000001     (.common:Lcd_Orientation)
-                  2000906d    00000001     (.common:Lcd_PenSolid)
+.bss       0    20008044    0000102e     UNINITIALIZED
+                  20008044    00001000     (.common:gADCBuffer)
+                  20009044    00000014     buttons.obj (.bss:state$1)
+                  20009058    00000004     (.common:gADCErrors)
+                  2000905c    00000004     (.common:gADCSamplingRate)
+                  20009060    00000004     (.common:gSystemClock)
+                  20009064    00000004     (.common:g_psGrLibDefaults)
+                  20009068    00000002     (.common:Lcd_ScreenHeigth)
+                  2000906a    00000002     (.common:Lcd_ScreenWidth)
+                  2000906c    00000002     (.common:Lcd_TouchTrim)
+                  2000906e    00000001     (.common:Lcd_FlagRead)
+                  2000906f    00000001     (.common:Lcd_FontSolid)
+                  20009070    00000001     (.common:Lcd_Orientation)
+                  20009071    00000001     (.common:Lcd_PenSolid)
 
-.stack     0    20009070    00000800     UNINITIALIZED
-                  20009070    00000004     rtsv7M4_T_le_v4SPD16_eabi.lib : boot_cortex_m.c.obj (.stack)
-                  20009074    000007fc     --HOLE--
+.stack     0    20009078    00000800     UNINITIALIZED
+                  20009078    00000004     rtsv7M4_T_le_v4SPD16_eabi.lib : boot_cortex_m.c.obj (.stack)
+                  2000907c    000007fc     --HOLE--
 
 MODULE SUMMARY
 
@@ -215,13 +215,13 @@ MODULE SUMMARY
        ------                                             ----    -------   -------
     .\
        Crystalfontz128x128_ST7735.obj                     1008    40        32778  
-       buttons.obj                                        1406    0         4178   
+       buttons.obj                                        1406    0         4182   
        main.obj                                           664     0         8      
        tm4c1294ncpdt_startup_ccs.obj                      26      520       0      
        HAL_EK_TM4C1294XL_Crystalfontz128x128_ST7735.obj   382     0         0      
        sysctl_pll.obj                                     74      0         0      
     +--+--------------------------------------------------+-------+---------+---------+
-       Total:                                             3560    560       36964  
+       Total:                                             3560    560       36968  
                                                                                    
     C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/driverlib/ccs/Debug/driverlib.lib
        sysctl.obj                                         674     452       0      
@@ -279,21 +279,21 @@ MODULE SUMMARY
        Total:                                             7737    257       4      
                                                                                    
        Stack:                                             0       0         2048   
-       Linker Generated:                                  0       60        0      
+       Linker Generated:                                  0       63        0      
     +--+--------------------------------------------------+-------+---------+---------+
-       Grand Total:                                       14755   2717      39020  
+       Grand Total:                                       14755   2720      39024  
 
 
 LINKER GENERATED COPY TABLES
 
 __TI_cinit_table @ 00004450 records: 2, size/record: 8, table size: 16
-	.data: load addr=00004420, load size=00000018 bytes, run addr=20000000, run size=00008040 bytes, compression=lzss
-	.bss: load addr=00004448, load size=00000008 bytes, run addr=20008040, run size=0000102e bytes, compression=zero_init
+	.data: load addr=00004420, load size=0000001b bytes, run addr=20000000, run size=00008044 bytes, compression=lzss
+	.bss: load addr=00004448, load size=00000008 bytes, run addr=20008044, run size=0000102e bytes, compression=zero_init
 
 
 LINKER GENERATED HANDLER TABLE
 
-__TI_handler_table @ 00004438 records: 3, size/record: 4, table size: 12
+__TI_handler_table @ 0000443c records: 3, size/record: 4, table size: 12
 	index: 0, handler: __TI_decompress_lzss
 	index: 1, handler: __TI_decompress_none
 	index: 2, handler: __TI_zero_init
@@ -355,13 +355,13 @@ address   name
 00003af1  IntMasterDisable                  
 00003b01  IntMasterEnable                   
 000038c5  IntPrioritySet                    
-2000906a  Lcd_FlagRead                      
-2000906b  Lcd_FontSolid                     
-2000906c  Lcd_Orientation                   
-2000906d  Lcd_PenSolid                      
-20009064  Lcd_ScreenHeigth                  
-20009066  Lcd_ScreenWidth                   
-20009068  Lcd_TouchTrim                     
+2000906e  Lcd_FlagRead                      
+2000906f  Lcd_FontSolid                     
+20009070  Lcd_Orientation                   
+20009071  Lcd_PenSolid                      
+20009068  Lcd_ScreenHeigth                  
+2000906a  Lcd_ScreenWidth                   
+2000906c  Lcd_TouchTrim                     
 20000000  Lcd_buffer                        
 00003981  ResetISR                          
 00003b93  SSIBusy                           
@@ -378,13 +378,13 @@ address   name
 00003bb9  TimerIntClear                     
 00003b9b  TimerIntEnable                    
 00003a9b  TimerLoadSet                      
-20009870  __STACK_END                       
+20009878  __STACK_END                       
 00000800  __STACK_SIZE                      
-20009270  __STACK_TOP                       
+20009278  __STACK_TOP                       
 00004450  __TI_CINIT_Base                   
 00004460  __TI_CINIT_Limit                  
-00004438  __TI_Handler_Table_Base           
-00004444  __TI_Handler_Table_Limit          
+0000443c  __TI_Handler_Table_Base           
+00004448  __TI_Handler_Table_Limit          
 00003615  __TI_auto_init_nobinit_nopinit    
 00003185  __TI_decompress_lzss              
 00003b3b  __TI_decompress_none              
@@ -419,7 +419,7 @@ ffffffff  __TI_prof_data_start
 ffffffff  __binit__                         
 ffffffff  __c_args__                        
 UNDEFED   __mpu_init                        
-20009070  __stack                           
+20009078  __stack                           
 0000374d  _c_int00_noargs                   
 00003fdc  _ctypes_                          
 UNDEFED   _system_post_cinit                
@@ -429,17 +429,18 @@ UNDEFED   _system_post_cinit
 ffffffff  binit                             
 00003a3d  copysign                          
 00003a3d  copysignl                         
-2000803c  errno                             
+20008040  errno                             
 000031ed  frexp                             
 000031ed  frexpl                            
-20008040  gADCBuffer                        
+20008044  gADCBuffer                        
 20008028  gADCBufferIndex                   
-20009054  gADCErrors                        
-20009058  gADCSamplingRate                  
+20009058  gADCErrors                        
+2000905c  gADCSamplingRate                  
+2000802c  gADCTemp                          
 20008024  gButtons                          
-20008030  gJoystick                         
-2000905c  gSystemClock                      
-20008038  gTime                             
+20008034  gJoystick                         
+20009060  gSystemClock                      
+2000803c  gTime                             
 00000000  g_pfnVectors                      
 00004408  g_psDefaultCodePointMapTable      
 000043e0  g_sCrystalfontz128x128            
@@ -585,30 +586,31 @@ address   name
 000040e0  g_sFontFixed6x8                   
 000043e0  g_sCrystalfontz128x128            
 00004408  g_psDefaultCodePointMapTable      
-00004438  __TI_Handler_Table_Base           
-00004444  __TI_Handler_Table_Limit          
+0000443c  __TI_Handler_Table_Base           
+00004448  __TI_Handler_Table_Limit          
 00004450  __TI_CINIT_Base                   
 00004460  __TI_CINIT_Limit                  
 20000000  Lcd_buffer                        
 20008024  gButtons                          
 20008028  gADCBufferIndex                   
-20008030  gJoystick                         
-20008038  gTime                             
-2000803c  errno                             
-20008040  gADCBuffer                        
-20009054  gADCErrors                        
-20009058  gADCSamplingRate                  
-2000905c  gSystemClock                      
-20009064  Lcd_ScreenHeigth                  
-20009066  Lcd_ScreenWidth                   
-20009068  Lcd_TouchTrim                     
-2000906a  Lcd_FlagRead                      
-2000906b  Lcd_FontSolid                     
-2000906c  Lcd_Orientation                   
-2000906d  Lcd_PenSolid                      
-20009070  __stack                           
-20009270  __STACK_TOP                       
-20009870  __STACK_END                       
+2000802c  gADCTemp                          
+20008034  gJoystick                         
+2000803c  gTime                             
+20008040  errno                             
+20008044  gADCBuffer                        
+20009058  gADCErrors                        
+2000905c  gADCSamplingRate                  
+20009060  gSystemClock                      
+20009068  Lcd_ScreenHeigth                  
+2000906a  Lcd_ScreenWidth                   
+2000906c  Lcd_TouchTrim                     
+2000906e  Lcd_FlagRead                      
+2000906f  Lcd_FontSolid                     
+20009070  Lcd_Orientation                   
+20009071  Lcd_PenSolid                      
+20009078  __stack                           
+20009278  __STACK_TOP                       
+20009878  __STACK_END                       
 ffffffff  __TI_pprof_out_hndl               
 ffffffff  __TI_prof_data_size               
 ffffffff  __TI_prof_data_start              
@@ -618,4 +620,4 @@ ffffffff  binit
 UNDEFED   __mpu_init                        
 UNDEFED   _system_post_cinit                
 
-[154 symbols]
+[155 symbols]

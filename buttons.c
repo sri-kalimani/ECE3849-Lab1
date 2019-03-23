@@ -31,6 +31,7 @@ extern uint32_t gSystemClock;   // [Hz] system clock frequency
 extern volatile uint32_t gTime; // time in hundredths of a second
 
 volatile int32_t gADCBufferIndex = ADC_BUFFER_SIZE - 1;
+volatile int32_t temp0, temp1, temp2;
 
 // initialize all button and joystick handling hardware
 void ButtonInit(void)
@@ -123,6 +124,18 @@ void ADC_ISR(void)
     gADCBuffer[
         gADCBufferIndex = ADC_BUFFER_WRAP(gADCBufferIndex + 1)
     ] = ADC1_SSFIFO0_R; // read sample from the ADC1 sequence 0 FIFO
+
+    temp0 = triggerBuffer[0];
+    temp1 = triggerBuffer[1];
+    triggerBuffer[2] = temp1;
+    triggerBuffer[1] = temp0;
+    triggerBuffer[0] = gADCBuffer[gADCBufferIndex];
+
+}
+
+void WAVEFORM_ISR(void){
+
+
 }
 
 // update the debounced button state gButtons

@@ -36,13 +36,15 @@
 #define CRYSTAL_FREQUENCY 25000000  // [Hz] crystal oscillator frequency used to calculate clock rates
 
 #define ADC_BUFFER_SIZE 2048 // size must be a power of 2
+#define BUFFER_COPY_SIZE 64
 #define ADC_BUFFER_WRAP(i) ((i) & (ADC_BUFFER_SIZE - 1)) // index wrapping macro
 
 extern volatile uint32_t gButtons;	// debounced button state, one per bit in the lowest bits
 extern uint32_t gJoystick[2];       // joystick coordinates
 extern uint32_t gADCSamplingRate;   // [Hz] actual ADC sampling rate
-//volatile int32_t gADCBufferIndex; // latest sample index
-volatile uint16_t gADCBuffer[ADC_BUFFER_SIZE]; // circular buffer
+volatile int16_t gADCBuffer[ADC_BUFFER_SIZE]; // circular buffer
+volatile int32_t gWaveformBuffer[BUFFER_COPY_SIZE];
+volatile int32_t triggerBuffer[3] = 0;
 volatile uint32_t gADCErrors; // number of missed ADC deadlines
 
 // initialize all button and joystick handling hardware
@@ -56,6 +58,8 @@ void ButtonDebounce(uint32_t buttons);
 void ButtonReadJoystick(void);
 
 void ADC_ISR(void);
+
+void WAVEFORM_ISR(void);
 
 // autorepeat button presses if a button is held long enough
 uint32_t ButtonAutoRepeat(void);
