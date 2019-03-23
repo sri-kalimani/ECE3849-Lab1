@@ -56,29 +56,26 @@ int main(void)
         sec = (time / 100) % 60 ;
         min = time /6000;
         hour = min /60;
-        snprintf(str, sizeof(str), "Time = %02u:%02u:%02u", hour, min, sec); // convert time to string//
-        snprintf(str1, sizeof(str1), "B1:%01u", (buttons & 0x04)); // print button1 state
-        snprintf(str2, sizeof(str2), "B2:%01u", (buttons & 0x08)); // print button2 state
-
-//        snprintf(str3, sizeof(str3), "B2:%32u", (buttons)); // print button2 state
-
-        snprintf(str3, sizeof(str3), "JSelect:%01u", (buttons & 0x10)); // print button2 state
-        snprintf(str4, sizeof(str4), "JRight:%01u", (buttons & 0x20)); // print button2 state
-        snprintf(str5, sizeof(str5), "JLeft:%01u", (buttons & 0x40)); // print button2 state
-        snprintf(str6, sizeof(str6), "JUp:%01u", (buttons & 0x80)); // print button2 state
-        snprintf(str7, sizeof(str7), "JDown:%01u", (buttons & 0x100)); // print button2 state
-
-        GrContextForegroundSet(&sContext, ClrYellow); // yellow text
-        GrStringDraw(&sContext, str, /*length*/ -1, /*x*/ 0, /*y*/ 0, /*opaque*/ false);
-
-        GrStringDraw(&sContext, str1, /*length*/ -1, /*x*/ 0, /*y*/ 10, /*opaque*/ false);
-        GrStringDraw(&sContext, str2, /*length*/ -1, /*x*/ 0, /*y*/ 20, /*opaque*/ false);
-
-        GrStringDraw(&sContext, str3, /*length*/ -1, /*x*/ 0, /*y*/ 30, /*opaque*/ false);
-        GrStringDraw(&sContext, str4, /*length*/ -1, /*x*/ 0, /*y*/ 40, /*opaque*/ false);
-        GrStringDraw(&sContext, str5, /*length*/ -1, /*x*/ 0, /*y*/ 50, /*opaque*/ false);
-        GrStringDraw(&sContext, str6, /*length*/ -1, /*x*/ 0, /*y*/ 60, /*opaque*/ false);
-        GrStringDraw(&sContext, str7, /*length*/ -1, /*x*/ 0, /*y*/ 70, /*opaque*/ false);
+//        snprintf(str, sizeof(str), "Time = %02u:%02u:%02u", hour, min, sec); // convert time to string//
+//        snprintf(str1, sizeof(str1), "B1:%01u", (buttons & 0x04)); // print button1 state
+//        snprintf(str2, sizeof(str2), "B2:%01u", (buttons & 0x08)); // print button2 state
+//        snprintf(str3, sizeof(str3), "JSelect:%01u", (buttons & 0x10)); // print button2 state
+//        snprintf(str4, sizeof(str4), "JRight:%01u", (buttons & 0x20)); // print button2 state
+//        snprintf(str5, sizeof(str5), "JLeft:%01u", (buttons & 0x40)); // print button2 state
+//        snprintf(str6, sizeof(str6), "JUp:%01u", (buttons & 0x80)); // print button2 state
+//        snprintf(str7, sizeof(str7), "JDown:%01u", (buttons & 0x100)); // print button2 state
+//
+//        GrContextForegroundSet(&sContext, ClrYellow); // yellow text
+//        GrStringDraw(&sContext, str, /*length*/ -1, /*x*/ 0, /*y*/ 0, /*opaque*/ false);
+//
+//        GrStringDraw(&sContext, str1, /*length*/ -1, /*x*/ 0, /*y*/ 10, /*opaque*/ false);
+//        GrStringDraw(&sContext, str2, /*length*/ -1, /*x*/ 0, /*y*/ 20, /*opaque*/ false);
+//
+//        GrStringDraw(&sContext, str3, /*length*/ -1, /*x*/ 0, /*y*/ 30, /*opaque*/ false);
+//        GrStringDraw(&sContext, str4, /*length*/ -1, /*x*/ 0, /*y*/ 40, /*opaque*/ false);
+//        GrStringDraw(&sContext, str5, /*length*/ -1, /*x*/ 0, /*y*/ 50, /*opaque*/ false);
+//        GrStringDraw(&sContext, str6, /*length*/ -1, /*x*/ 0, /*y*/ 60, /*opaque*/ false);
+//        GrStringDraw(&sContext, str7, /*length*/ -1, /*x*/ 0, /*y*/ 70, /*opaque*/ false);
 
         GrFlush(&sContext); // flush the frame buffer to the LCD
     }
