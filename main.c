@@ -20,9 +20,9 @@
 uint32_t gSystemClock; // [Hz] system clock frequency
 volatile uint32_t gTime = 8345; // time in hundredths of a second
 
-extern volatile int32_t gADCBufferIndex = ADC_BUFFER_SIZE - 1;
-extern volatile int32_t temp0, temp1;
-extern volatile int32_t gTriggerIndex = 0;
+volatile int32_t temp0, temp1;
+volatile int32_t gTriggerIndex;
+//volatile int32_t gADCBufferIndex = ADC_BUFFER_SIZE - 1;
 
 int main(void)
 {
@@ -49,6 +49,7 @@ int main(void)
 
     int count = 0;
     int i = 0;
+    gTriggerIndex = 64;
 
     while(count < 64){
         gTriggerIndex--;
@@ -60,8 +61,8 @@ int main(void)
         triggerBuffer[2] = gADCBuffer[gTriggerIndex];
     }
 
-    if(triggerBuffer[0] < 0 && triggerBuffer[2] > 0){
-      for(i; i++; i<64){
+    if(triggerBuffer[0] <= 0 && triggerBuffer[1] == 0 && triggerBuffer[2] > 0){
+      for(i=0; i<64; i++){
           gWaveformBuffer[i] = gADCBuffer[(gTriggerIndex - (32+i))];
       }
     }
