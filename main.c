@@ -22,6 +22,8 @@ volatile uint32_t gTime = 8345; // time in hundredths of a second
 
 volatile int32_t temp0, temp1;
 volatile int32_t gTriggerIndex;
+volatile int i,j;
+
 //volatile int32_t gADCBufferIndex = ADC_BUFFER_SIZE - 1;
 
 int main(void)
@@ -45,31 +47,32 @@ int main(void)
     ButtonInit();
     IntMasterEnable();
 
-    int Triggercount = 0;
-    int i = 0;
-    gTriggerIndex = 64;
+    j = 0;
+    i = 0;
 
-    while(Triggercount < 64){
-        gTriggerIndex--;
-        Triggercount++;
-        temp0 = triggerBuffer[1];
-        temp1 = triggerBuffer[2];
-        triggerBuffer[0] = temp0;
-        triggerBuffer[1] = temp1;
-        triggerBuffer[2] = gADCBuffer[gTriggerIndex];
-    }
+    gTriggerIndex = gADCBufferIndex/2;
 
-    if(triggerBuffer[0] < 0 && triggerBuffer[2] > 0){
-      for(i=0; i<64; i++){
-          gWaveformBuffer[i] = gADCBuffer[(gTriggerIndex - (32+i))];
-          Triggercount = 0;
-          gTriggerIndex = gADCBufferIndex - 64;
-      }
-    }
-    else{
-        gTriggerIndex = gADCBufferIndex/2;
-        Triggercount = 0;
-        gTriggerIndex = gADCBufferIndex - 64;
+    while(1){
+        while(j<gTriggerIndex+1){
+            temp0 = triggerBuffer[1];
+            temp1 = triggerBuffer[2];
+            triggerBuffer[0] = temp0;
+            triggerBuffer[1] = temp1;
+            triggerBuffer[2] = gADCBuffer[gTriggerIndex-j];
+            j++;
+        }
+
+        j = 0;
+
+        if(triggerBuffer[0] < 2045 && triggerBuffer[2] > 2045){
+          for(i=0; i<64; i++){
+              gWaveformBuffer[i] = gADCBuffer[(gTriggerIndex - (32+i))];
+          }
+          gTriggerIndex = gADCBufferIndex/2;
+        }
+        else{
+            gTriggerIndex = gADCBufferIndex/2;
+        }
     }
 
 
@@ -79,11 +82,11 @@ int main(void)
 //    char str[50], str1[20], str2[20], str3[20], str4[20], str5[20], str6[20], str7[20];   // string buffer
 //    full-screen rectangle
 
-    tRectangle rectFullScreen = {0, 0, GrContextDpyWidthGet(&sContext)-1, GrContextDpyHeightGet(&sContext)-1};
+//tRectangle rectFullScreen = {0, 0, GrContextDpyWidthGet(&sContext)-1, GrContextDpyHeightGet(&sContext)-1};
 
-    while (true) {
-        GrContextForegroundSet(&sContext, ClrBlack);
-        GrRectFill(&sContext, &rectFullScreen); // fill screen with black
+//    while (true) {
+//        GrContextForegroundSet(&sContext, ClrBlack);
+//        GrRectFill(&sContext, &rectFullScreen); // fill screen with black
 //        time = gTime; // read shared global only once
 //        buttons = gButtons; // read shared global only once
 //        sec = (time / 100) % 60 ;
@@ -109,7 +112,7 @@ int main(void)
 //        GrStringDraw(&sContext, str5, /*length*/ -1, /*x*/ 0, /*y*/ 50, /*opaque*/ false);
 //        GrStringDraw(&sContext, str6, /*length*/ -1, /*x*/ 0, /*y*/ 60, /*opaque*/ false);
 //        GrStringDraw(&sContext, str7, /*length*/ -1, /*x*/ 0, /*y*/ 70, /*opaque*/ false);
-
-        GrFlush(&sContext); // flush the frame buffer to the LCD
-    }
+//
+//        GrFlush(&sContext); // flush the frame buffer to the LCD
+//    }
 }
