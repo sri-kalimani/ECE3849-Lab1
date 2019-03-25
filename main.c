@@ -45,15 +45,13 @@ int main(void)
     ButtonInit();
     IntMasterEnable();
 
-//moved Waveform and Trigger from ADC ISR into main
-
-    int count = 0;
+    int Triggercount = 0;
     int i = 0;
     gTriggerIndex = 64;
 
-    while(count < 64){
+    while(Triggercount < 64){
         gTriggerIndex--;
-        count++;
+        Triggercount++;
         temp0 = triggerBuffer[1];
         temp1 = triggerBuffer[2];
         triggerBuffer[0] = temp0;
@@ -61,14 +59,17 @@ int main(void)
         triggerBuffer[2] = gADCBuffer[gTriggerIndex];
     }
 
-    if(triggerBuffer[0] <= 0 && triggerBuffer[1] == 0 && triggerBuffer[2] > 0){
+    if(triggerBuffer[0] < 0 && triggerBuffer[2] > 0){
       for(i=0; i<64; i++){
           gWaveformBuffer[i] = gADCBuffer[(gTriggerIndex - (32+i))];
+          Triggercount = 0;
+          gTriggerIndex = gADCBufferIndex - 64;
       }
     }
     else{
+        gTriggerIndex = gADCBufferIndex/2;
+        Triggercount = 0;
         gTriggerIndex = gADCBufferIndex - 64;
-        count = 0;
     }
 
 
