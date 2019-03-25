@@ -20,6 +20,10 @@
 uint32_t gSystemClock; // [Hz] system clock frequency
 volatile uint32_t gTime = 8345; // time in hundredths of a second
 
+extern volatile int32_t gADCBufferIndex = ADC_BUFFER_SIZE - 1;
+extern volatile int32_t temp0, temp1;
+extern volatile int32_t gTriggerIndex = 0;
+
 int main(void)
 {
     IntMasterDisable();
@@ -41,21 +45,48 @@ int main(void)
     ButtonInit();
     IntMasterEnable();
 
-    uint32_t time;  // local copy of gTime
-    uint32_t buttons; //local copy of gButtons
-    uint32_t hour, min, sec;
-    char str[50], str1[20], str2[20], str3[20], str4[20], str5[20], str6[20], str7[20];   // string buffer
-    // full-screen rectangle
+//moved Waveform and Trigger from ADC ISR into main
+
+    int count = 0;
+    int i = 0;
+
+    while(count < 64){
+        gTriggerIndex--;
+        count++;
+        temp0 = triggerBuffer[1];
+        temp1 = triggerBuffer[2];
+        triggerBuffer[0] = temp0;
+        triggerBuffer[1] = temp1;
+        triggerBuffer[2] = gADCBuffer[gTriggerIndex];
+    }
+
+    if(triggerBuffer[0] < 0 && triggerBuffer[2] > 0){
+      for(i; i++; i<64){
+          gWaveformBuffer[i] = gADCBuffer[(gTriggerIndex - (32+i))];
+      }
+    }
+    else{
+        gTriggerIndex = gADCBufferIndex - 64;
+        count = 0;
+    }
+
+
+//    uint32_t time;  // local copy of gTime
+//    uint32_t buttons; //local copy of gButtons
+//    uint32_t hour, min, sec;
+//    char str[50], str1[20], str2[20], str3[20], str4[20], str5[20], str6[20], str7[20];   // string buffer
+//    full-screen rectangle
+
     tRectangle rectFullScreen = {0, 0, GrContextDpyWidthGet(&sContext)-1, GrContextDpyHeightGet(&sContext)-1};
 
     while (true) {
         GrContextForegroundSet(&sContext, ClrBlack);
         GrRectFill(&sContext, &rectFullScreen); // fill screen with black
-        time = gTime; // read shared global only once
-        buttons = gButtons; // read shared global only once
-        sec = (time / 100) % 60 ;
-        min = time /6000;
-        hour = min /60;
+//        time = gTime; // read shared global only once
+//        buttons = gButtons; // read shared global only once
+//        sec = (time / 100) % 60 ;
+//        min = time /6000;
+//        hour = min /60;
 //        snprintf(str, sizeof(str), "Time = %02u:%02u:%02u", hour, min, sec); // convert time to string//
 //        snprintf(str1, sizeof(str1), "B1:%01u", (buttons & 0x04)); // print button1 state
 //        snprintf(str2, sizeof(str2), "B2:%01u", (buttons & 0x08)); // print button2 state

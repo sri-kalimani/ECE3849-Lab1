@@ -31,7 +31,8 @@ extern uint32_t gSystemClock;   // [Hz] system clock frequency
 extern volatile uint32_t gTime; // time in hundredths of a second
 
 volatile int32_t gADCBufferIndex = ADC_BUFFER_SIZE - 1;
-volatile int32_t temp0, temp1, temp2;
+volatile int32_t temp0, temp1;
+volatile int32_t gTriggerIndex = 0;
 
 // initialize all button and joystick handling hardware
 void ButtonInit(void)
@@ -125,83 +126,7 @@ void ADC_ISR(void)
         gADCBufferIndex = ADC_BUFFER_WRAP(gADCBufferIndex + 1)
     ] = ADC1_SSFIFO0_R; // read sample from the ADC1 sequence 0 FIFO
 
-    temp0 = triggerBuffer[0];
-    temp1 = triggerBuffer[1];
-    triggerBuffer[2] = temp1;
-    triggerBuffer[1] = temp0;
-    triggerBuffer[0] = gADCBuffer[gADCBufferIndex];
-
-    if(triggerBuffer[0] <= 0 && triggerBuffer[1] == 0 && triggerBuffer[2] > 0){
-        WAVEFORM_ISR();
-    }
-}
-
-void WAVEFORM_ISR(void){
-
-    gWaveformBuffer[0] = gADCBuffer[(gADCBufferIndex - 64)];
-    gWaveformBuffer[1] = gADCBuffer[(gADCBufferIndex - 63)];
-    gWaveformBuffer[2] = gADCBuffer[(gADCBufferIndex - 62)];
-    gWaveformBuffer[3] = gADCBuffer[(gADCBufferIndex - 61)];
-    gWaveformBuffer[4] = gADCBuffer[(gADCBufferIndex - 60)];
-    gWaveformBuffer[5] = gADCBuffer[(gADCBufferIndex - 59)];
-    gWaveformBuffer[6] = gADCBuffer[(gADCBufferIndex - 58)];
-    gWaveformBuffer[7] = gADCBuffer[(gADCBufferIndex - 57)];
-    gWaveformBuffer[8] = gADCBuffer[(gADCBufferIndex - 56)];
-    gWaveformBuffer[9] = gADCBuffer[(gADCBufferIndex - 55)];
-    gWaveformBuffer[10] = gADCBuffer[(gADCBufferIndex - 54)];
-    gWaveformBuffer[11] = gADCBuffer[(gADCBufferIndex - 53)];
-    gWaveformBuffer[12] = gADCBuffer[(gADCBufferIndex - 52)];
-    gWaveformBuffer[13] = gADCBuffer[(gADCBufferIndex - 51)];
-    gWaveformBuffer[14] = gADCBuffer[(gADCBufferIndex - 50)];
-    gWaveformBuffer[15] = gADCBuffer[(gADCBufferIndex - 49)];
-    gWaveformBuffer[16] = gADCBuffer[(gADCBufferIndex - 48)];
-    gWaveformBuffer[17] = gADCBuffer[(gADCBufferIndex - 47)];
-    gWaveformBuffer[18] = gADCBuffer[(gADCBufferIndex - 46)];
-    gWaveformBuffer[19] = gADCBuffer[(gADCBufferIndex - 45)];
-    gWaveformBuffer[20] = gADCBuffer[(gADCBufferIndex - 44)];
-    gWaveformBuffer[21] = gADCBuffer[(gADCBufferIndex - 43)];
-    gWaveformBuffer[22] = gADCBuffer[(gADCBufferIndex - 42)];
-    gWaveformBuffer[23] = gADCBuffer[(gADCBufferIndex - 41)];
-    gWaveformBuffer[24] = gADCBuffer[(gADCBufferIndex - 40)];
-    gWaveformBuffer[25] = gADCBuffer[(gADCBufferIndex - 39)];
-    gWaveformBuffer[26] = gADCBuffer[(gADCBufferIndex - 38)];
-    gWaveformBuffer[27] = gADCBuffer[(gADCBufferIndex - 37)];
-    gWaveformBuffer[28] = gADCBuffer[(gADCBufferIndex - 36)];
-    gWaveformBuffer[29] = gADCBuffer[(gADCBufferIndex - 35)];
-    gWaveformBuffer[30] = gADCBuffer[(gADCBufferIndex - 34)];
-    gWaveformBuffer[31] = gADCBuffer[(gADCBufferIndex - 33)];
-    gWaveformBuffer[32] = gADCBuffer[(gADCBufferIndex - 32)];
-    gWaveformBuffer[33] = gADCBuffer[(gADCBufferIndex - 31)];
-    gWaveformBuffer[34] = gADCBuffer[(gADCBufferIndex - 30)];
-    gWaveformBuffer[35] = gADCBuffer[(gADCBufferIndex - 29)];
-    gWaveformBuffer[36] = gADCBuffer[(gADCBufferIndex - 28)];
-    gWaveformBuffer[37] = gADCBuffer[(gADCBufferIndex - 27)];
-    gWaveformBuffer[38] = gADCBuffer[(gADCBufferIndex - 26)];
-    gWaveformBuffer[39] = gADCBuffer[(gADCBufferIndex - 25)];
-    gWaveformBuffer[40] = gADCBuffer[(gADCBufferIndex - 24)];
-    gWaveformBuffer[41] = gADCBuffer[(gADCBufferIndex - 23)];
-    gWaveformBuffer[42] = gADCBuffer[(gADCBufferIndex - 22)];
-    gWaveformBuffer[43] = gADCBuffer[(gADCBufferIndex - 21)];
-    gWaveformBuffer[44] = gADCBuffer[(gADCBufferIndex - 20)];
-    gWaveformBuffer[45] = gADCBuffer[(gADCBufferIndex - 19)];
-    gWaveformBuffer[46] = gADCBuffer[(gADCBufferIndex - 18)];
-    gWaveformBuffer[47] = gADCBuffer[(gADCBufferIndex - 17)];
-    gWaveformBuffer[48] = gADCBuffer[(gADCBufferIndex - 16)];
-    gWaveformBuffer[49] = gADCBuffer[(gADCBufferIndex - 15)];
-    gWaveformBuffer[50] = gADCBuffer[(gADCBufferIndex - 14)];
-    gWaveformBuffer[51] = gADCBuffer[(gADCBufferIndex - 13)];
-    gWaveformBuffer[52] = gADCBuffer[(gADCBufferIndex - 12)];
-    gWaveformBuffer[53] = gADCBuffer[(gADCBufferIndex - 11)];
-    gWaveformBuffer[54] = gADCBuffer[(gADCBufferIndex - 10)];
-    gWaveformBuffer[55] = gADCBuffer[(gADCBufferIndex - 9)];
-    gWaveformBuffer[56] = gADCBuffer[(gADCBufferIndex - 8)];
-    gWaveformBuffer[57] = gADCBuffer[(gADCBufferIndex - 7)];
-    gWaveformBuffer[58] = gADCBuffer[(gADCBufferIndex - 6)];
-    gWaveformBuffer[59] = gADCBuffer[(gADCBufferIndex - 5)];
-    gWaveformBuffer[60] = gADCBuffer[(gADCBufferIndex - 4)];
-    gWaveformBuffer[61] = gADCBuffer[(gADCBufferIndex - 3)];
-    gWaveformBuffer[62] = gADCBuffer[(gADCBufferIndex - 2)];
-    gWaveformBuffer[63] = gADCBuffer[(gADCBufferIndex - 1)];
+    gTriggerIndex = (gADCBufferIndex - 64);
 }
 
 // update the debounced button state gButtons

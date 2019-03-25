@@ -59,8 +59,6 @@ void ButtonReadJoystick(void);
 
 void ADC_ISR(void);
 
-void WAVEFORM_ISR(void);
-
 // autorepeat button presses if a button is held long enough
 uint32_t ButtonAutoRepeat(void);
 
