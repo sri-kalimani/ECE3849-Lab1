@@ -19,6 +19,8 @@ buttons.obj: C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/
 buttons.obj: ../sysctl_pll.h
 buttons.obj: ../buttons.h
 buttons.obj: C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/inc/tm4c1294ncpdt.h
+buttons.obj: ../Crystalfontz128x128_ST7735.h
+buttons.obj: C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/grlib/grlib.h
 
 ../buttons.c: 
 C:/ti/ccsv8/tools/compiler/ti-cgt-arm_18.1.2.LTS/include/stdint.h: 
@@ -39,3 +41,5 @@ C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/driverlib/adc
 ../sysctl_pll.h: 
 ../buttons.h: 
 C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/inc/tm4c1294ncpdt.h: 
+../Crystalfontz128x128_ST7735.h: 
+C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/grlib/grlib.h: 

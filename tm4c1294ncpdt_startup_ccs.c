@@ -134,8 +134,8 @@ void (* const g_pfnVectors[])(void) =
     IntDefaultHandler,                      // PWM Generator 3
     IntDefaultHandler,                      // uDMA Software Transfer
     IntDefaultHandler,                      // uDMA Error
-    ADC_ISR,                      // ADC1 Sequence 0
-    IntDefaultHandler,                                // ADC1 Sequence 1
+    ADC_ISR,                                // ADC1 Sequence 0
+    IntDefaultHandler,                      // ADC1 Sequence 1
     IntDefaultHandler,                      // ADC1 Sequence 2
     IntDefaultHandler,                      // ADC1 Sequence 3
     IntDefaultHandler,                      // External Bus Interface 0

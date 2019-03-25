@@ -19,6 +19,7 @@
 #include "sysctl_pll.h"
 #include "buttons.h"
 #include "inc/tm4c1294ncpdt.h"
+#include "Crystalfontz128x128_ST7735.h"
 
 // public globals
 volatile uint32_t gButtons = 0; // debounced button state, one per bit in the lowest bits
@@ -202,7 +203,14 @@ void WAVEFORM_ISR(void){
     gWaveformBuffer[61] = gADCBuffer[(gADCBufferIndex - 3)];
     gWaveformBuffer[62] = gADCBuffer[(gADCBufferIndex - 2)];
     gWaveformBuffer[63] = gADCBuffer[(gADCBufferIndex - 1)];
+
+    fVoltsPerDiv = 1;
+    sample = gADCBuffer[gADCBufferIndex];
+    y = LCD_VERTICAL_MAX/2 - (int)roundf(fScale * ((int)sample - ADC_OFFSET));
+    fScale = (VIN_RANGE * PIXELS_PER_DIV)/((1 << ADC_BITS) * fVoltsPerDiv);
+
 }
+
 
 // update the debounced button state gButtons
 void ButtonDebounce(uint32_t buttons)
