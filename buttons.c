@@ -32,7 +32,8 @@ extern uint32_t gSystemClock;   // [Hz] system clock frequency
 extern volatile uint32_t gTime; // time in hundredths of a second
 
 volatile int32_t gADCBufferIndex = ADC_BUFFER_SIZE - 1;
-volatile int32_t temp0, temp1, temp2;
+volatile int32_t temp0, temp1;
+volatile int32_t gTriggerIndex = 0;
 
 // initialize all button and joystick handling hardware
 void ButtonInit(void)
@@ -209,6 +210,7 @@ void WAVEFORM_ISR(void){
     y = LCD_VERTICAL_MAX/2 - (int)roundf(fScale * ((int)sample - ADC_OFFSET));
     fScale = (VIN_RANGE * PIXELS_PER_DIV)/((1 << ADC_BITS) * fVoltsPerDiv);
 
+    gTriggerIndex = (gADCBufferIndex - 64);
 }
 
 
