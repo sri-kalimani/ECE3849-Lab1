@@ -20,11 +20,17 @@
 uint32_t gSystemClock; // [Hz] system clock frequency
 volatile uint32_t gTime = 8345; // time in hundredths of a second
 
+// temporary buffer storage variables
 volatile int32_t temp0, temp1;
 volatile int32_t gTriggerIndex;
 volatile int i,j;
 
-//volatile int32_t gADCBufferIndex = ADC_BUFFER_SIZE - 1;
+// data to display conversion variables
+uint16_t sample;
+uint16_t fVoltsPerDiv;
+float fScale;
+int y ;
+
 
 int main(void)
 {
@@ -43,7 +49,6 @@ int main(void)
     tContext sContext;
     GrContextInit(&sContext, &g_sCrystalfontz128x128); // Initialize the grlib graphics context
     GrContextFontSet(&sContext, &g_sFontFixed6x8); // select font
-
     ButtonInit();
     IntMasterEnable();
 
@@ -51,8 +56,15 @@ int main(void)
     i = 0;
 
     gTriggerIndex = gADCBufferIndex/2;
+    tRectangle rectFullScreen = {0, 0, GrContextDpyWidthGet(&sContext)-1, GrContextDpyHeightGet(&sContext)-1};
+    fVoltsPerDiv = 1;
+    fScale = (VIN_RANGE * PIXELS_PER_DIV)/((1 << ADC_BITS) * fVoltsPerDiv);
 
     while(1){
+        GrContextForegroundSet(&sContext, ClrBlack);
+        GrRectFill(&sContext, &rectFullScreen); // fill screen with black
+        GrContextForegroundSet(&sContext, ClrYellow); // yellow text
+
         while(j<gTriggerIndex+1){
             temp0 = triggerBuffer[1];
             temp1 = triggerBuffer[2];
@@ -64,15 +76,22 @@ int main(void)
 
         j = 0;
 
-        if(triggerBuffer[0] < 2045 && triggerBuffer[2] > 2045){
+        if(triggerBuffer[0] < 2044 && triggerBuffer[2] > 2045 && triggerBuffer[1] < triggerBuffer[2]){
           for(i=0; i<64; i++){
               gWaveformBuffer[i] = gADCBuffer[(gTriggerIndex - (32+i))];
-          }
+              sample = gWaveformBuffer[i];
+              y = LCD_VERTICAL_MAX/2 - (int)roundf(fScale * ((int)sample - ADC_OFFSET));
+              GrStringDraw(&sContext, ".", /*length*/ fScale, /*x*/ i, /*y*/ y, /*opaque*/ false); // print dots at the height of y
+           }
           gTriggerIndex = gADCBufferIndex/2;
         }
         else{
             gTriggerIndex = gADCBufferIndex/2;
         }
+
+        GrFlush(&sContext); // flush the frame buffer to the LCD
+
+
     }
 
 
@@ -82,7 +101,7 @@ int main(void)
 //    char str[50], str1[20], str2[20], str3[20], str4[20], str5[20], str6[20], str7[20];   // string buffer
 //    full-screen rectangle
 
-//tRectangle rectFullScreen = {0, 0, GrContextDpyWidthGet(&sContext)-1, GrContextDpyHeightGet(&sContext)-1};
+
 
 //    while (true) {
 //        GrContextForegroundSet(&sContext, ClrBlack);
@@ -113,6 +132,5 @@ int main(void)
 //        GrStringDraw(&sContext, str6, /*length*/ -1, /*x*/ 0, /*y*/ 60, /*opaque*/ false);
 //        GrStringDraw(&sContext, str7, /*length*/ -1, /*x*/ 0, /*y*/ 70, /*opaque*/ false);
 //
-//        GrFlush(&sContext); // flush the frame buffer to the LCD
 //    }
 }
