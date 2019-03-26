@@ -83,7 +83,7 @@ int main(void)
           for(i=0; i<1024; i++){
               gWaveformBuffer[i] = gADCBuffer[(gTriggerIndex - (512+i))];
               sample = gWaveformBuffer[i];
-              y = LCD_VERTICAL_MAX/2 -(0.05 * ((int)sample - ADC_OFFSET));
+              y = LCD_VERTICAL_MAX/2 -(int)(fScale * ((int)sample - ADC_OFFSET));
               if (i != 0){
 
                   GrLineDraw(&sContext,i-1, y_old, i, y); // print dots at the height of y
