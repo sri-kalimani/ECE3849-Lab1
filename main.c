@@ -29,7 +29,7 @@ volatile int i,j;
 uint16_t sample;
 uint16_t fVoltsPerDiv;
 float fScale;
-int y ;
+int y, y_old ;
 
 
 int main(void)
@@ -55,12 +55,15 @@ int main(void)
     j = 0;
     i = 0;
 
-    gTriggerIndex = gADCBufferIndex/2;
     tRectangle rectFullScreen = {0, 0, GrContextDpyWidthGet(&sContext)-1, GrContextDpyHeightGet(&sContext)-1};
     fVoltsPerDiv = 1;
     fScale = (VIN_RANGE * PIXELS_PER_DIV)/((1 << ADC_BITS) * fVoltsPerDiv);
 
     while(1){
+//        if (gADCBufferIndex < 512)
+//            gTriggerIndex = gADCBufferIndex;
+//        else
+        gTriggerIndex = gADCBufferIndex + 512;
         GrContextForegroundSet(&sContext, ClrBlack);
         GrRectFill(&sContext, &rectFullScreen); // fill screen with black
         GrContextForegroundSet(&sContext, ClrYellow); // yellow text
@@ -76,18 +79,22 @@ int main(void)
 
         j = 0;
 
-        if(triggerBuffer[0] < 2060 && triggerBuffer[2] > 2061 && triggerBuffer[1] < triggerBuffer[2]){
+        if(triggerBuffer[0] > 1290 && triggerBuffer[0] < 2045 && triggerBuffer[2] > 2045 && triggerBuffer[2] < 2800){
           for(i=0; i<1024; i++){
               gWaveformBuffer[i] = gADCBuffer[(gTriggerIndex - (512+i))];
               sample = gWaveformBuffer[i];
-              y = LCD_VERTICAL_MAX/2 - (int)roundf(fScale * ((int)sample - ADC_OFFSET));
-              GrStringDraw(&sContext, ".", /*length*/ fScale, /*x*/ i, /*y*/ y, /*opaque*/ false); // print dots at the height of y
+              y = LCD_VERTICAL_MAX/2 -(0.05 * ((int)sample - ADC_OFFSET));
+              if (i != 0){
+
+                  GrLineDraw(&sContext,i-1, y_old, i, y); // print dots at the height of y
+              }
+              y_old = y;
            }
-          gTriggerIndex = gADCBufferIndex/2;
+          gTriggerIndex = gADCBufferIndex - 512;
         }
-        else{
-            gTriggerIndex = gADCBufferIndex/2;
-        }
+//        else{
+//            gTriggerIndex = gADCBufferIndex/2;
+//        }
 
         GrFlush(&sContext); // flush the frame buffer to the LCD
 

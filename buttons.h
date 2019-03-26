@@ -34,11 +34,12 @@
 
 #define ADC_SAMPLING_RATE 1000000   // [samples/sec] desired ADC sampling rate
 #define CRYSTAL_FREQUENCY 25000000  // [Hz] crystal oscillator frequency used to calculate clock rates
+#define pll_frequency 480000000  // [Hz] crystal oscillator frequency used to calculate clock rates
 
 #define ADC_BUFFER_SIZE 2048 // size must be a power of 2
 #define BUFFER_COPY_SIZE 1024
 #define ADC_BUFFER_WRAP(i) ((i) & (ADC_BUFFER_SIZE - 1)) // index wrapping macro
-#define ADC_OFFSET 2060
+#define ADC_OFFSET 2044
 #define VIN_RANGE 3.3
 #define PIXELS_PER_DIV 20
 #define ADC_BITS 2048
