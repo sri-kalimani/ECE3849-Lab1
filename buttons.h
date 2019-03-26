@@ -36,9 +36,9 @@
 #define CRYSTAL_FREQUENCY 25000000  // [Hz] crystal oscillator frequency used to calculate clock rates
 
 #define ADC_BUFFER_SIZE 2048 // size must be a power of 2
-#define BUFFER_COPY_SIZE 64
+#define BUFFER_COPY_SIZE 1024
 #define ADC_BUFFER_WRAP(i) ((i) & (ADC_BUFFER_SIZE - 1)) // index wrapping macro
-#define ADC_OFFSET 2045
+#define ADC_OFFSET 2060
 #define VIN_RANGE 3.3
 #define PIXELS_PER_DIV 20
 #define ADC_BITS 2048
@@ -52,12 +52,6 @@ volatile int16_t gADCBuffer[ADC_BUFFER_SIZE]; // circular buffer
 volatile int32_t gWaveformBuffer[BUFFER_COPY_SIZE];
 volatile int32_t triggerBuffer[3];
 volatile uint32_t gADCErrors; // number of missed ADC deadlines
-uint16_t sample;
-uint16_t fVoltsPerDiv;
-
-float fScale;
-int y ;
-
 
 
 // initialize all button and joystick handling hardware
