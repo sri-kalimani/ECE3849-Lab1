@@ -77,8 +77,8 @@ int main(void)
         j = 0;
 
         if(triggerBuffer[0] < 2044 && triggerBuffer[2] > 2045 && triggerBuffer[1] < triggerBuffer[2]){
-          for(i=0; i<64; i++){
-              gWaveformBuffer[i] = gADCBuffer[(gTriggerIndex - (32+i))];
+          for(i=0; i<1024; i++){
+              gWaveformBuffer[i] = gADCBuffer[(gTriggerIndex - (512+i))];
               sample = gWaveformBuffer[i];
               y = LCD_VERTICAL_MAX/2 - (int)roundf(fScale * ((int)sample - ADC_OFFSET));
               GrStringDraw(&sContext, ".", /*length*/ fScale, /*x*/ i, /*y*/ y, /*opaque*/ false); // print dots at the height of y
