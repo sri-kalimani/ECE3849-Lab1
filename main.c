@@ -56,7 +56,7 @@ int main(void)
     i = 0;
 
     tRectangle rectFullScreen = {0, 0, GrContextDpyWidthGet(&sContext)-1, GrContextDpyHeightGet(&sContext)-1};
-    fVoltsPerDiv = 1;
+    fVoltsPerDiv = 0.015625;
     fScale = (VIN_RANGE * PIXELS_PER_DIV)/((1 << ADC_BITS) * fVoltsPerDiv);
 
     while(1){
@@ -79,7 +79,7 @@ int main(void)
 
         j = 0;
 
-        if(triggerBuffer[0] > 1290 && triggerBuffer[0] < 2045 && triggerBuffer[2] > 2045 && triggerBuffer[2] < 2800){
+        if(triggerBuffer[0] > 1290 && triggerBuffer[0] < 2045 && triggerBuffer[1] > 2045 && triggerBuffer[1] < 2800){
           for(i=0; i<1024; i++){
               gWaveformBuffer[i] = gADCBuffer[(gTriggerIndex - (512+i))];
               sample = gWaveformBuffer[i];

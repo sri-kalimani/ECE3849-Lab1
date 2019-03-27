@@ -42,7 +42,7 @@
 #define ADC_OFFSET 2044
 #define VIN_RANGE 3.3
 #define PIXELS_PER_DIV 20
-#define ADC_BITS 2048
+#define ADC_BITS 16
 
 extern volatile uint32_t gButtons;	// debounced button state, one per bit in the lowest bits
 extern uint32_t gJoystick[2];       // joystick coordinates
