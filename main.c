@@ -31,6 +31,7 @@ volatile float fVoltsPerDiv = 1.0;
 float fScale;
 int y, y_old ;
 char buttonRead;
+char getTest;
 
 //for interpreting gButtons and putting into FIFO
 uint32_t buttons; //local copy of gButtons
@@ -80,8 +81,8 @@ int main(void)
 //        GrContextForegroundSet(&sContext, ClrYellow); // yellow text
 //        GrFlush(&sContext);
 
-        buttons = gButtons;
-        buttonChar(buttons);
+//        buttons = gButtons;
+//        buttonChar(buttons);
 
         /* Joystick configuration for scaling   */
 
@@ -222,9 +223,8 @@ int main(void)
 
 
 void buttonChar(uint32_t buttons){
-    if(buttons&0x01)    //USR_SW1
+    if(buttons&0x01)        //USR_SW1
         fifo_put('1');
-
     else if(buttons&0x02)    //USR_SW2
         fifo_put('2');
     else if(buttons&0x04)    //S1
@@ -239,11 +239,10 @@ void buttonChar(uint32_t buttons){
         fifo_put('L');
     else if(buttons&0x80)    //Up
         fifo_put('U');
-    else
-//        if(buttons&0x100)   //Down
+    else if(buttons&0x100)   //Down
         fifo_put('D');
-//    else
-//        fifo_put('0');
+    else
+        fifo_put('0');
 
 }
 
