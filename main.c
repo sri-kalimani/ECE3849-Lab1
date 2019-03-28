@@ -38,7 +38,7 @@ uint32_t buttons; //local copy of gButtons
 //triggerslope flag
 int triggerSlope = 0;
 
-char buttonChar(uint32_t buttons);
+void buttonChar(uint32_t buttons);
 
 int main(void)
 {
@@ -75,13 +75,7 @@ int main(void)
         GrContextForegroundSet(&sContext, ClrYellow); // yellow text
 
         buttons = gButtons;
-        buttonRead = buttonChar(buttons);
-
-        fifo_put(buttonRead);
-//        //draw grid
-//        k = 0;
-//        l = 0;
-//        for(k = 1; k+=20; k<128)
+        buttonChar(buttons);
 
         /* Joystick configuration for scaling   */
 
@@ -206,27 +200,27 @@ int main(void)
 }
 
 
-char buttonChar(uint32_t buttons){
+void buttonChar(uint32_t buttons){
     if(buttons&0x01)    //USR_SW1
-        return '1';
+        fifo_put('1');
     if(buttons&0x02)    //USR_SW2
-        return '2';
+        fifo_put('2');
     if(buttons&0x04)    //S1
-        return 'A';
+        fifo_put('A');
     if(buttons&0x08)    //S2
-        return 'B';
+        fifo_put('B');
     if(buttons&0x10)    //Select
-        return 'S';
+        fifo_put('S');
     if(buttons&0x20)    //Right
-        return 'R';
+        fifo_put('R');
     if(buttons&0x40)    //Left
-        return 'L';
+        fifo_put('L');
     if(buttons&0x80)    //Up
-        return 'U';
+        fifo_put('U');
     if(buttons&0x100)   //Down
-        return 'D';
-    else
-        return '0';
+        fifo_put('D');
+
+    return 0;
 }
 
 
