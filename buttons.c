@@ -25,6 +25,8 @@ volatile int fifo_head = 0; // index of the first item in the FIFO
 volatile int fifo_tail = 0; // index one step past the last item
 volatile char fifo[FIFO_SIZE];
 
+char c;
+
 // public globals
 volatile uint32_t gButtons = 0; // debounced button state, one per bit in the lowest bits
                                 // button is pressed if its bit is 1, not pressed if 0
@@ -154,10 +156,12 @@ int fifo_get(char *data)
 {
     if (fifo_head != fifo_tail) {   // if the FIFO is not empty
         *data = fifo[fifo_head];    // read data from the FIFO
-//        IntMasterDisable();
-        fifo_head++;                // advance FIFO head index
-//        delay_us(1000);
-        if (fifo_head >= FIFO_SIZE) fifo_head = 0; // wrap around
+        if (fifo_head >= FIFO_SIZE){
+            fifo_head = 0; // wrap around
+        }
+        else{
+            fifo_head++;
+        }
 //        IntMasterEnable();
         return 1;                   // success
     }
@@ -267,62 +271,55 @@ void ButtonISR(void) {
     static bool tic = false;
     static bool running = true;
 
-//    fifo_put('2');
-//        else if(buttons&0x04)    //S1
-//            fifo_put('A');
-//        else if(buttons&0x08)    //S2
-//            fifo_put('B');
-//        else if(buttons&0x10)    //Select
-//            fifo_put('S');
-//        else if(buttons&0x20)    //Right
-//            fifo_put('R');
-//        else if(buttons&0x40)    //Left
-//            fifo_put('L');
-//        else if(buttons&0x80)    //Up
-//            fifo_put('U');
-//        else if(buttons&0x100)   //Down
-//            fifo_put('D');
-
     if (presses & 1) { // EK-TM4C1294XL button 1 pressed
         running = !running;
-        fifo_put('1');
+        c = '1';
+        fifo_put(c);
     }
 
     if (presses & 0x2) {
         gTime = 0;
-        fifo_put('2');
         running = false;
+        c = '2';
+        fifo_put(c);
     }
 
     if (presses & 0x4){
         gButtons = gButtons | 0x4;
-        fifo_put('A');
+        c = 'A';
+        fifo_put(c);
     }
 
     if (presses & 0x8){
         gButtons = gButtons | 0x8;
-        fifo_put('B');
+        c = 'B';
+        fifo_put(c);
     }
 
     if (presses & 0x10){
         gButtons = gButtons | 0x10;
-        fifo_put('S');
+        c = 'S';
+        fifo_put(c);
     }
     if (presses & 0x20){
         gButtons = gButtons | 0x20;
-        fifo_put('R');
+        c = 'R';
+        fifo_put(c);
     }
     if (presses & 0x40){
         gButtons = gButtons | 0x40;
-        fifo_put('L');
+        c = 'L';
+        fifo_put(c);
     }
     if (presses & 0x80){
         gButtons = gButtons | 0x80;
-        fifo_put('U');
+        c = 'U';
+        fifo_put(c);
     }
     if (presses & 0x100){
         gButtons = gButtons | 0x100;
-        fifo_put('D');
+        c = 'D';
+        fifo_put(c);
     }
 
     if (running) {

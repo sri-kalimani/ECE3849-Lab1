@@ -33,16 +33,19 @@ int y, y_old ;
 char buttonRead;
 char getTest;
 
+char p;
+
 //for interpreting gButtons and putting into FIFO
 uint32_t buttons; //local copy of gButtons
 
 //triggerslope flag
-int triggerSlope = 0;
+int triggerSlope =  0;
 
 void buttonChar(uint32_t buttons);
 
 int main(void)
 {
+
     IntMasterDisable();
 
     // Enable the Floating Point Unit, and permit ISRs to use it
@@ -76,33 +79,29 @@ int main(void)
 
     while(1){
 
-//        GrContextForegroundSet(&sContext, ClrBlack);
-//        GrRectFill(&sContext, &rectFullScreen); // fill screen with black
-//        GrContextForegroundSet(&sContext, ClrYellow); // yellow text
-//        GrFlush(&sContext);
-
-//        buttons = gButtons;
-//        buttonChar(buttons);
+        fifo_get(&p);
 
         /* Joystick configuration for scaling   */
 
-        if (buttons&0x20)               // if right joystick selected
+        if (p == 'R')               // if right joystick selected
             fVoltsPerDiv = 0.1;
-        if (buttons&0x40)               // if left joystick is selected
+        if (p == 'L')               // if left joystick is selected
             fVoltsPerDiv = 0.2;
-        if (buttons&0x80)               // if up joystick is selected
+        if (p == 'U')               // if up joystick is selected
             fVoltsPerDiv = 0.5;
-        if (buttons&0x100)              // if down joystick is selected
+        if (p == 'D')              // if down joystick is selected
             fVoltsPerDiv = 1.0;
 
         fScale = (VIN_RANGE * PIXELS_PER_DIV)/((1 << ADC_BITS) * fVoltsPerDiv);
 
+        buttons = gButtons;
+
         //USR_SW1 switches trigger slope
-        if(buttons&0x01){    //USR_SW1
-            if(triggerSlope == 0)
-                triggerSlope = 1;
-            else
-                triggerSlope = 0;
+        if(buttons & 1){    //USR_SW1
+            triggerSlope =! triggerSlope;
+        }
+        else{
+            triggerSlope = triggerSlope;
         }
 
 
@@ -118,26 +117,12 @@ int main(void)
 
         j = 0;
 
-/*      Trigger slope settings for Selina's board. DO NOT DESTROY!   */
-/*
-        if(triggerBuffer[0] > 445 && triggerBuffer[0] < ADC_OFFSET && triggerBuffer[1] > ADC_OFFSET && triggerBuffer[1] < 1935){
-          for(i=0; i<1024; i++){
-              gWaveformBuffer[i] = gADCBuffer[(gTriggerIndex - (512+i))];
-              sample = gWaveformBuffer[i];
-              y = LCD_VERTICAL_MAX/2 -(int)(fScale * ((int)sample - ADC_OFFSET));
-              if (i != 0){
-                  GrLineDraw(&sContext,i-1, y_old, i, y); // print dots at the height of y
-*/
-
-//        GrContextForegroundSet(&sContext, ClrBlack);
-//        GrRectFill(&sContext, &rectFullScreen); // fill screen with black
-
-        if(triggerSlope == 0){ //rising
+        if(triggerSlope == 0){ //falling
 
             GrContextForegroundSet(&sContext, ClrBlack);
             GrRectFill(&sContext, &rectFullScreen); // fill screen with black
 
-            if(triggerBuffer[0] > (ADC_OFFSET - 1) && triggerBuffer[2] < ADC_OFFSET){
+            if(triggerBuffer[0] < (ADC_OFFSET - 1) && triggerBuffer[2] > ADC_OFFSET){
               for(i=0; i<1024; i++){
                   gWaveformBuffer[i] = gADCBuffer[(gTriggerIndex - (512+i))];
                   sample = gWaveformBuffer[i];
@@ -152,12 +137,12 @@ int main(void)
               gTriggerIndex = gADCBufferIndex - 512;
             }
         }
-        else{ //falling
+        else{ //rising
 
             GrContextForegroundSet(&sContext, ClrBlack);
             GrRectFill(&sContext, &rectFullScreen); // fill screen with black
 
-            if(triggerBuffer[0]< (ADC_OFFSET -1) && triggerBuffer[2] > ADC_OFFSET){
+            if(triggerBuffer[0] > (ADC_OFFSET) && triggerBuffer[2] < (ADC_OFFSET-1)){
               for(i=0; i<1024; i++){
                   gWaveformBuffer[i] = gADCBuffer[(gTriggerIndex - (512+i))];
                   sample = gWaveformBuffer[i];
@@ -221,30 +206,6 @@ int main(void)
 //    }
 }
 
-
-void buttonChar(uint32_t buttons){
-    if(buttons&0x01)        //USR_SW1
-        fifo_put('1');
-    else if(buttons&0x02)    //USR_SW2
-        fifo_put('2');
-    else if(buttons&0x04)    //S1
-        fifo_put('A');
-    else if(buttons&0x08)    //S2
-        fifo_put('B');
-    else if(buttons&0x10)    //Select
-        fifo_put('S');
-    else if(buttons&0x20)    //Right
-        fifo_put('R');
-    else if(buttons&0x40)    //Left
-        fifo_put('L');
-    else if(buttons&0x80)    //Up
-        fifo_put('U');
-    else if(buttons&0x100)   //Down
-        fifo_put('D');
-    else
-        fifo_put('0');
-
-}
 
 
 
