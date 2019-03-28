@@ -224,24 +224,26 @@ int main(void)
 void buttonChar(uint32_t buttons){
     if(buttons&0x01)    //USR_SW1
         fifo_put('1');
-    if(buttons&0x02)    //USR_SW2
+
+    else if(buttons&0x02)    //USR_SW2
         fifo_put('2');
-    if(buttons&0x04)    //S1
+    else if(buttons&0x04)    //S1
         fifo_put('A');
-    if(buttons&0x08)    //S2
+    else if(buttons&0x08)    //S2
         fifo_put('B');
-    if(buttons&0x10)    //Select
+    else if(buttons&0x10)    //Select
         fifo_put('S');
-    if(buttons&0x20)    //Right
+    else if(buttons&0x20)    //Right
         fifo_put('R');
-    if(buttons&0x40)    //Left
+    else if(buttons&0x40)    //Left
         fifo_put('L');
-    if(buttons&0x80)    //Up
+    else if(buttons&0x80)    //Up
         fifo_put('U');
-    if(buttons&0x100)   //Down
-        fifo_put('D');
     else
-        fifo_put('0');
+//        if(buttons&0x100)   //Down
+        fifo_put('D');
+//    else
+//        fifo_put('0');
 
 }
 
