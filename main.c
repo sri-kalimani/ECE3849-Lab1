@@ -129,7 +129,7 @@ int main(void)
 */
 
         if(triggerSlope == 0){ //rising
-            if(triggerBuffer[0] > 2044 && triggerBuffer[2] < 2045){
+            if(triggerBuffer[0] > (ADC_OFFSET - 1) && triggerBuffer[2] < ADC_OFFSET){
               for(i=0; i<1024; i++){
                   gWaveformBuffer[i] = gADCBuffer[(gTriggerIndex - (512+i))];
                   sample = gWaveformBuffer[i];
@@ -137,6 +137,7 @@ int main(void)
                   if (i != 0){
 
                       GrLineDraw(&sContext,i-1, y_old, i, y); // print dots at the height of y
+                      GrFlush(&sContext);
                   }
                   y_old = y;
                }
@@ -144,7 +145,7 @@ int main(void)
             }
         }
         else{ //falling
-            if(triggerBuffer[0]< 2044 && triggerBuffer[2] > 2045){
+            if(triggerBuffer[0]< (ADC_OFFSET -1) && triggerBuffer[2] > ADC_OFFSET){
               for(i=0; i<1024; i++){
                   gWaveformBuffer[i] = gADCBuffer[(gTriggerIndex - (512+i))];
                   sample = gWaveformBuffer[i];
@@ -152,6 +153,7 @@ int main(void)
                   if (i != 0){
 
                       GrLineDraw(&sContext,i-1, y_old, i, y); // print dots at the height of y
+                      GrFlush(&sContext);
                   }
                   y_old = y;
               }
