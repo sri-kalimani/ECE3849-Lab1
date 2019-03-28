@@ -35,6 +35,9 @@ char buttonRead;
 //for interpreting gButtons and putting into FIFO
 uint32_t buttons; //local copy of gButtons
 
+//triggerslope flag
+int triggerSlope = 0;
+
 char buttonChar(uint32_t buttons);
 
 int main(void)
@@ -71,6 +74,7 @@ int main(void)
 
         buttons = gButtons;
         buttonRead = buttonChar(buttons);
+
         fifo_put(buttonRead);
 
         GrContextForegroundSet(&sContext, ClrBlack);
@@ -80,33 +84,58 @@ int main(void)
 //        //draw grid
 //        k = 0;
 //        l = 0;
-//
 //        for(k = 1; k+=20; k<128)
+
+        //USR_SW1 switches trigger slope
+        if(buttons&0x01){    //USR_SW1
+            if(triggerSlope == 0)
+                triggerSlope = 1;
+            else
+                triggerSlope = 0;
+        }
+
 
         gTriggerIndex = gADCBufferIndex + 512;
         while(j<gTriggerIndex+1){
-            temp0 = triggerBuffer[1];
-            temp1 = triggerBuffer[2];
-            triggerBuffer[0] = temp0;
-            triggerBuffer[1] = temp1;
-            triggerBuffer[2] = gADCBuffer[gTriggerIndex-j];
-            j++;
+                temp0 = triggerBuffer[1];
+                temp1 = triggerBuffer[2];
+                triggerBuffer[0] = temp0;
+                triggerBuffer[1] = temp1;
+                triggerBuffer[2] = gADCBuffer[gTriggerIndex-j];
+                j++;
         }
 
         j = 0;
 
-        if(triggerBuffer[0] > 1290 && triggerBuffer[0] < 2045 && triggerBuffer[1] > 2045 && triggerBuffer[1] < 2800){
-          for(i=0; i<1024; i++){
-              gWaveformBuffer[i] = gADCBuffer[(gTriggerIndex - (512+i))];
-              sample = gWaveformBuffer[i];
-              y = LCD_VERTICAL_MAX/2 -(int)(fScale * ((int)sample - ADC_OFFSET));
-              if (i != 0){
+        if(triggerSlope == 0){ //rising
+            if(triggerBuffer[0] > 2044 && triggerBuffer[2] < 2045){
+              for(i=0; i<1024; i++){
+                  gWaveformBuffer[i] = gADCBuffer[(gTriggerIndex - (512+i))];
+                  sample = gWaveformBuffer[i];
+                  y = LCD_VERTICAL_MAX/2 -(int)(fScale * ((int)sample - ADC_OFFSET));
+                  if (i != 0){
 
-                  GrLineDraw(&sContext,i-1, y_old, i, y); // print dots at the height of y
+                      GrLineDraw(&sContext,i-1, y_old, i, y); // print dots at the height of y
+                  }
+                  y_old = y;
+               }
+              gTriggerIndex = gADCBufferIndex - 512;
+            }
+        }
+        else{ //falling
+            if(triggerBuffer[0]< 2044 && triggerBuffer[2] > 2045){
+              for(i=0; i<1024; i++){
+                  gWaveformBuffer[i] = gADCBuffer[(gTriggerIndex - (512+i))];
+                  sample = gWaveformBuffer[i];
+                  y = LCD_VERTICAL_MAX/2 -(int)(fScale * ((int)sample - ADC_OFFSET));
+                  if (i != 0){
+
+                      GrLineDraw(&sContext,i-1, y_old, i, y); // print dots at the height of y
+                  }
+                  y_old = y;
               }
-              y_old = y;
-           }
-          gTriggerIndex = gADCBufferIndex - 512;
+              gTriggerIndex = gADCBufferIndex - 512;
+            }
         }
 //        else{
 //            gTriggerIndex = gADCBufferIndex/2;
