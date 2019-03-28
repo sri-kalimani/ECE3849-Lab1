@@ -23,13 +23,15 @@ volatile uint32_t gTime = 8345; // time in hundredths of a second
 // temporary buffer storage variables
 volatile int32_t temp0, temp1;
 volatile int32_t gTriggerIndex;
-volatile int i, j, k, l;
+volatile int i, j, k, l, n;
 
 // data to display conversion variables
 uint16_t sample;
 volatile float fVoltsPerDiv = 1.0;
 float fScale;
-int y, y_old ;
+int y[1024];
+int y_old[1024];
+
 char buttonRead;
 char getTest;
 
@@ -117,45 +119,39 @@ int main(void)
 
         j = 0;
 
+        GrContextForegroundSet(&sContext, ClrBlack);
+        GrRectFill(&sContext, &rectFullScreen); // fill screen with black
+
         if(triggerSlope == 0){ //falling
-
-            GrContextForegroundSet(&sContext, ClrBlack);
-            GrRectFill(&sContext, &rectFullScreen); // fill screen with black
-
             if(triggerBuffer[0] < (ADC_OFFSET - 1) && triggerBuffer[2] > ADC_OFFSET){
               for(i=0; i<1024; i++){
                   gWaveformBuffer[i] = gADCBuffer[(gTriggerIndex - (512+i))];
                   sample = gWaveformBuffer[i];
-                  y = LCD_VERTICAL_MAX/2 -(int)(fScale * ((int)sample - ADC_OFFSET));
-                  if (i != 0){
-
-                      GrLineDraw(&sContext,i-1, y_old, i, y); // print dots at the height of y
-                      GrContextForegroundSet(&sContext, ClrYellow); // yellow text
-                  }
-                  y_old = y;
+                  y[i] = LCD_VERTICAL_MAX/2 -(int)(fScale * ((int)sample - ADC_OFFSET));
                }
               gTriggerIndex = gADCBufferIndex - 512;
             }
         }
         else{ //rising
-
-            GrContextForegroundSet(&sContext, ClrBlack);
-            GrRectFill(&sContext, &rectFullScreen); // fill screen with black
-
             if(triggerBuffer[0] > (ADC_OFFSET) && triggerBuffer[2] < (ADC_OFFSET-1)){
               for(i=0; i<1024; i++){
                   gWaveformBuffer[i] = gADCBuffer[(gTriggerIndex - (512+i))];
                   sample = gWaveformBuffer[i];
-                  y = LCD_VERTICAL_MAX/2 -(int)(fScale * ((int)sample - ADC_OFFSET));
-                  if (i != 0){
-                      GrLineDraw(&sContext,i-1, y_old, i, y); // print dots at the height of y
-                      GrContextForegroundSet(&sContext, ClrYellow); // yellow text
-                  }
-                  y_old = y;
+                  y[i] = LCD_VERTICAL_MAX/2 -(int)(fScale * ((int)sample - ADC_OFFSET));
               }
               gTriggerIndex = gADCBufferIndex - 512;
             }
         }
+
+        for(n = 0; n<128;n++){
+              if (n != 0){
+
+                  GrLineDraw(&sContext,n-1, y_old[n], n, y[n]); // print dots at the height of y
+                  GrContextForegroundSet(&sContext, ClrYellow); // yellow text
+              }
+              y_old[n] = y[n];
+        }
+
         GrFlush(&sContext); // flush the frame buffer to the LCD
 //        GrContextForegroundSet(&sContext, ClrBlack);
 //        GrRectFill(&sContext, &rectFullScreen); // fill screen with black
