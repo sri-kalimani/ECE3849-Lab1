@@ -176,6 +176,7 @@ int main(void)
 //        GrRectFill(&sContext, &rectFullScreen); // fill screen with black
 //        GrContextForegroundSet(&sContext, ClrYellow); // yellow text
 
+//        getTest = fifo_get();
 
 
     }
