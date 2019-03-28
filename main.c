@@ -64,14 +64,15 @@ int main(void)
     i = 0;
 
     tRectangle rectFullScreen = {0, 0, GrContextDpyWidthGet(&sContext)-1, GrContextDpyHeightGet(&sContext)-1};
-    GrContextForegroundSet(&sContext, ClrBlack);
-    GrRectFill(&sContext, &rectFullScreen); // fill screen with black
-    GrContextForegroundSet(&sContext, ClrYellow); // yellow text
 
 //    GrContextForegroundSet(&sContext, ClrBlack);
 //    GrRectFill(&sContext, &rectFullScreen); // fill screen with black
 
     while(1){
+
+        GrContextForegroundSet(&sContext, ClrBlack);
+        GrRectFill(&sContext, &rectFullScreen); // fill screen with black
+        GrContextForegroundSet(&sContext, ClrYellow); // yellow text
 
         buttons = gButtons;
         buttonRead = buttonChar(buttons);
@@ -81,6 +82,9 @@ int main(void)
 //        k = 0;
 //        l = 0;
 //        for(k = 1; k+=20; k<128)
+
+        /* Joystick configuration for scaling   */
+
         if (buttons&0x20)               // if right joystick selected
             fVoltsPerDiv = 0.1;
         if (buttons&0x40)               // if left joystick is selected
@@ -113,13 +117,16 @@ int main(void)
 
         j = 0;
 
-//        if(triggerBuffer[0] > 445 && triggerBuffer[0] < ADC_OFFSET && triggerBuffer[1] > ADC_OFFSET && triggerBuffer[1] < 1935){
-//          for(i=0; i<1024; i++){
-//              gWaveformBuffer[i] = gADCBuffer[(gTriggerIndex - (512+i))];
-//              sample = gWaveformBuffer[i];
-//              y = LCD_VERTICAL_MAX/2 -(int)(fScale * ((int)sample - ADC_OFFSET));
-//              if (i != 0){
-//                  GrLineDraw(&sContext,i-1, y_old, i, y); // print dots at the height of y
+/*      Trigger slope settings for Selina's board. DO NOT DESTROY!   */
+/*
+        if(triggerBuffer[0] > 445 && triggerBuffer[0] < ADC_OFFSET && triggerBuffer[1] > ADC_OFFSET && triggerBuffer[1] < 1935){
+          for(i=0; i<1024; i++){
+              gWaveformBuffer[i] = gADCBuffer[(gTriggerIndex - (512+i))];
+              sample = gWaveformBuffer[i];
+              y = LCD_VERTICAL_MAX/2 -(int)(fScale * ((int)sample - ADC_OFFSET));
+              if (i != 0){
+                  GrLineDraw(&sContext,i-1, y_old, i, y); // print dots at the height of y
+*/
 
         if(triggerSlope == 0){ //rising
             if(triggerBuffer[0] > 2044 && triggerBuffer[2] < 2045){
