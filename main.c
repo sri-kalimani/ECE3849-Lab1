@@ -240,6 +240,8 @@ void buttonChar(uint32_t buttons){
         fifo_put('U');
     if(buttons&0x100)   //Down
         fifo_put('D');
+    else
+        fifo_put('0');
 
 }
 
