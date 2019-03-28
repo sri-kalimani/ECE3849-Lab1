@@ -1,33 +1,33 @@
 ******************************************************************************
-                  TI ARM Linker PC v18.1.2                     
+                  TI ARM Linker PC v18.12.1                    
 ******************************************************************************
->> Linked Sun Mar 24 18:48:24 2019
+>> Linked Thu Mar 28 01:13:18 2019
 
 OUTPUT FILE NAME:   <ece3849_lab1_skalimani_cradlermandile2.out>
-ENTRY POINT SYMBOL: "_c_int00_noargs"  address: 00001f25
+ENTRY POINT SYMBOL: "_c_int00_noargs"  address: 000021c9
 
 
 MEMORY CONFIGURATION
 
          name            origin    length      used     unused   attr    fill
 ----------------------  --------  ---------  --------  --------  ----  --------
-  FLASH                 00000000   00100000  00002a64  000fd59c  R  X
-  SRAM                  20000000   00040000  0000998a  00036676  RW X
+  FLASH                 00000000   00100000  00002ca2  000fd35e  R  X
+  SRAM                  20000000   00040000  0000a8b9  00035747  RW X
 
 
 SEGMENT ALLOCATION MAP
 
 run origin  load origin   length   init length attrs members
 ----------  ----------- ---------- ----------- ----- -------
-00000000    00000000    00002a68   00002a68    r-x
+00000000    00000000    00002ca8   00002ca8    r-x
   00000000    00000000    00000208   00000208    r-- .intvecs
-  00000208    00000208    000020c4   000020c4    r-x .text
-  000022cc    000022cc    00000758   00000758    r-- .const
-  00002a28    00002a28    00000040   00000040    r-- .cinit
-20000000    20000000    00009990   00000000    rw-
-  20000000    20000000    0000803c   00000000    rw- .data
-  2000803c    2000803c    0000114e   00000000    rw- .bss
-  20009190    20009190    00000800   00000000    rw- .stack
+  00000208    00000208    00002302   00002302    r-x .text
+  0000250c    0000250c    00000758   00000758    r-- .const
+  00002c68    00002c68    00000040   00000040    r-- .cinit
+20000000    20000000    0000a8c0   00000000    rw-
+  20000000    20000000    0000804c   00000000    rw- .data
+  2000804c    2000804c    0000206d   00000000    rw- .bss
+  2000a0c0    2000a0c0    00000800   00000000    rw- .stack
 
 
 SECTION ALLOCATION MAP
@@ -38,144 +38,154 @@ section   page    origin      length       input sections
 .intvecs   0    00000000    00000208     
                   00000000    00000208     tm4c1294ncpdt_startup_ccs.obj (.intvecs)
 
-.text      0    00000208    000020c4     
-                  00000208    00000984     buttons.obj (.text)
-                  00000b8c    00000004     driverlib.lib : timer.obj (.text:TimerIntClear)
-                  00000b90    000003f0     Crystalfontz128x128_ST7735.obj (.text)
-                  00000f80    00000256     grlib.lib : string.obj (.text:GrFontGlyphRender)
-                  000011d6    00000002     --HOLE-- [fill = 0]
-                  000011d8    00000204     driverlib.lib : sysctl.obj (.text:SysCtlClockFreqSet)
-                  000013dc    00000004     rtsv7M4_T_le_v4SPD16_eabi.lib : pre_init.c.obj (.text:_system_pre_init)
-                  000013e0    0000017e     HAL_EK_TM4C1294XL_Crystalfontz128x128_ST7735.obj (.text)
-                  0000155e    00000130     driverlib.lib : gpio.obj (.text:GPIOPadConfigSet)
-                  0000168e    000000c4     grlib.lib : string.obj (.text:GrDefaultStringRenderer)
-                  00001752    00000006     driverlib.lib : gpio.obj (.text:GPIOPinRead)
-                  00001758    000000b2     main.obj (.text)
-                  0000180a    0000009c     rtsv7M4_T_le_v4SPD16_eabi.lib : memcpy_t2.asm.obj (.text)
-                  000018a6    00000086     grlib.lib : rectangle.obj (.text:GrRectFill)
-                  0000192c    00000080     rtsv7M4_T_le_v4SPD16_eabi.lib : s_floorf.c.obj (.text:floorf)
-                  000019ac    0000007a     driverlib.lib : adc.obj (.text:ADCSequenceStepConfigure)
-                  00001a26    0000007a     rtsv7M4_T_le_v4SPD16_eabi.lib : memset_t2.asm.obj (.text)
-                  00001aa0    0000006e                                   : s_roundf.c.obj (.text:roundf)
-                  00001b0e    00000002     --HOLE-- [fill = 0]
-                  00001b10    00000068     grlib.lib : context.obj (.text:GrContextInit)
-                  00001b78    00000068     driverlib.lib : interrupt.obj (.text:IntEnable)
-                  00001be0    00000068     rtsv7M4_T_le_v4SPD16_eabi.lib : copy_decompress_lzss.c.obj (.text:decompress:lzss:__TI_decompress_lzss)
-                  00001c48    00000060     driverlib.lib : timer.obj (.text:TimerConfigure)
-                  00001ca8    0000005a     grlib.lib : string.obj (.text:FontWideGlyphDataGet)
-                  00001d02    0000004a               : string.obj (.text:UpdateContextCharMapping)
-                  00001d4c    00000004     rtsv7M4_T_le_v4SPD16_eabi.lib : exit.c.obj (.text:abort:abort)
-                  00001d50    0000004a     sysctl_pll.obj (.text)
-                  00001d9a    00000002     --HOLE-- [fill = 0]
-                  00001d9c    00000048     driverlib.lib : gpio.obj (.text:GPIOPinConfigure)
-                  00001de4    00000048                   : sysctl.obj (.text:_SysCtlFrequencyGet)
-                  00001e2c    00000044     rtsv7M4_T_le_v4SPD16_eabi.lib : autoinit.c.obj (.text:__TI_auto_init_nobinit_nopinit:__TI_auto_init_nobinit_nopinit)
-                  00001e70    0000003e     driverlib.lib : adc.obj (.text:ADCSequenceConfigure)
-                  00001eae    0000003c                   : ssi.obj (.text:SSIConfigSetExpClk)
-                  00001eea    0000003a     grlib.lib : string.obj (.text:FontGlyphDataGet)
-                  00001f24    00000038     rtsv7M4_T_le_v4SPD16_eabi.lib : boot_cortex_m.c.obj (.text:_c_int00_noargs:_c_int00_noargs)
-                  00001f5c    00000038                                   : fs_tod_t2.asm.obj (.text)
-                  00001f94    00000034     driverlib.lib : sysctl.obj (.text:SysCtlPeripheralEnable)
-                  00001fc8    0000002e                   : adc.obj (.text:ADCIntStatus)
-                  00001ff6    0000002e     grlib.lib : string.obj (.text:GrStringNextCharGet)
-                  00002024    0000002a     driverlib.lib : gpio.obj (.text:GPIODirModeSet)
-                  0000204e    00000026     grlib.lib : string.obj (.text:GrFontInfoGet)
-                  00002074    00000024     driverlib.lib : interrupt.obj (.text:IntPrioritySet)
-                  00002098    00000022     grlib.lib : string.obj (.text:GrFontGlyphDataGet)
-                  000020ba    0000001e     driverlib.lib : adc.obj (.text:ADCSequenceDataGet)
-                  000020d8    0000001e     grlib.lib : string.obj (.text:GrFontCodepageGet)
-                  000020f6    00000002     --HOLE-- [fill = 0]
-                  000020f8    0000001c     driverlib.lib : sysctl.obj (.text:_SysCtlMemTimingGet)
-                  00002114    00000004     --HOLE-- [fill = 0]
-                  00002118    0000001a     tm4c1294ncpdt_startup_ccs.obj (.text)
-                  00002132    00000018     driverlib.lib : adc.obj (.text:ADCClockConfigSet)
-                  0000214a    00000018                   : adc.obj (.text:ADCProcessorTrigger)
-                  00002162    00000018                   : gpio.obj (.text:GPIOPinTypeGPIOOutput)
-                  0000217a    00000002     --HOLE-- [fill = 0]
-                  0000217c    00000014                   : timer.obj (.text:TimerDisable)
-                  00002190    00000012                   : gpio.obj (.text:GPIOPinTypeADC)
-                  000021a2    00000012                   : gpio.obj (.text:GPIOPinTypeGPIOInput)
-                  000021b4    00000012                   : gpio.obj (.text:GPIOPinTypeSSI)
-                  000021c6    00000012                   : timer.obj (.text:TimerLoadSet)
-                  000021d8    00000010                   : adc.obj (.text:ADCIntEnable)
-                  000021e8    00000010                   : fpu.obj (.text:FPUEnable)
-                  000021f8    00000010                   : fpu.obj (.text:FPULazyStackingEnable)
-                  00002208    00000010                   : interrupt.obj (.text:IntMasterDisable)
-                  00002218    00000010                   : interrupt.obj (.text:IntMasterEnable)
-                  00002228    0000000e                   : adc.obj (.text:ADCSequenceDisable)
-                  00002236    0000000e                   : adc.obj (.text:ADCSequenceEnable)
-                  00002244    0000000e                   : timer.obj (.text:TimerEnable)
-                  00002252    0000000e     rtsv7M4_T_le_v4SPD16_eabi.lib : copy_decompress_none.c.obj (.text:decompress:none:__TI_decompress_none)
-                  00002260    0000000c     driverlib.lib : cpu.obj (.text:CPUcpsid)
-                  0000226c    0000000c                   : cpu.obj (.text:CPUcpsie)
-                  00002278    0000000c     rtsv7M4_T_le_v4SPD16_eabi.lib : copy_zero_init.c.obj (.text:decompress:ZI:__TI_zero_init)
-                  00002284    0000000a     driverlib.lib : adc.obj (.text:ADCIntClear)
-                  0000228e    0000000a                   : ssi.obj (.text:SSIDataPut)
-                  00002298    0000000a                   : ssi.obj (.text:SSIEnable)
-                  000022a2    00000008     grlib.lib : charmap.obj (.text:GrMapISO8859_1_Unicode)
-                  000022aa    00000008     driverlib.lib : ssi.obj (.text:SSIBusy)
-                  000022b2    00000008                   : timer.obj (.text:TimerIntEnable)
-                  000022ba    00000006                   : gpio.obj (.text:GPIOPinWrite)
-                  000022c0    00000006     grlib.lib : string.obj (.text:GrContextFontSet)
-                  000022c6    00000006     driverlib.lib : sysctl.obj (.text:SysCtlDelay)
+.text      0    00000208    00002302     
+                  00000208    0000061e     buttons.obj (.text)
+                  00000826    00000002     --HOLE-- [fill = 0]
+                  00000828    000004e6     main.obj (.text)
+                  00000d0e    00000002     --HOLE-- [fill = 0]
+                  00000d10    000003f0     Crystalfontz128x128_ST7735.obj (.text)
+                  00001100    00000256     grlib.lib : string.obj (.text:GrFontGlyphRender)
+                  00001356    00000002     --HOLE-- [fill = 0]
+                  00001358    00000204     driverlib.lib : sysctl.obj (.text:SysCtlClockFreqSet)
+                  0000155c    00000004                   : timer.obj (.text:TimerIntClear)
+                  00001560    0000017e     HAL_EK_TM4C1294XL_Crystalfontz128x128_ST7735.obj (.text)
+                  000016de    00000130     driverlib.lib : gpio.obj (.text:GPIOPadConfigSet)
+                  0000180e    00000106     grlib.lib : line.obj (.text:GrLineDraw)
+                  00001914    000000c4               : string.obj (.text:GrDefaultStringRenderer)
+                  000019d8    000000c0               : line.obj (.text:GrLineClip)
+                  00001a98    0000009c     rtsv7M4_T_le_v4SPD16_eabi.lib : memcpy_t2.asm.obj (.text)
+                  00001b34    00000086     grlib.lib : rectangle.obj (.text:GrRectFill)
+                  00001bba    0000007a     driverlib.lib : adc.obj (.text:ADCSequenceStepConfigure)
+                  00001c34    0000007a     rtsv7M4_T_le_v4SPD16_eabi.lib : memset_t2.asm.obj (.text)
+                  00001cae    00000002     --HOLE-- [fill = 0]
+                  00001cb0    00000068     grlib.lib : context.obj (.text:GrContextInit)
+                  00001d18    00000068     driverlib.lib : interrupt.obj (.text:IntEnable)
+                  00001d80    00000068     rtsv7M4_T_le_v4SPD16_eabi.lib : copy_decompress_lzss.c.obj (.text:decompress:lzss:__TI_decompress_lzss)
+                  00001de8    00000060     driverlib.lib : timer.obj (.text:TimerConfigure)
+                  00001e48    0000005a     grlib.lib : string.obj (.text:FontWideGlyphDataGet)
+                  00001ea2    00000002     --HOLE-- [fill = 0]
+                  00001ea4    00000058     driverlib.lib : timer.obj (.text:TimerControlTrigger)
+                  00001efc    0000004a     grlib.lib : string.obj (.text:UpdateContextCharMapping)
+                  00001f46    00000002     --HOLE-- [fill = 0]
+                  00001f48    00000048     driverlib.lib : gpio.obj (.text:GPIOPinConfigure)
+                  00001f90    00000048                   : sysctl.obj (.text:_SysCtlFrequencyGet)
+                  00001fd8    00000046     grlib.lib : line.obj (.text:GrLineDrawH)
+                  0000201e    00000046               : line.obj (.text:GrLineDrawV)
+                  00002064    00000044     rtsv7M4_T_le_v4SPD16_eabi.lib : autoinit.c.obj (.text:__TI_auto_init_nobinit_nopinit:__TI_auto_init_nobinit_nopinit)
+                  000020a8    0000003e     driverlib.lib : adc.obj (.text:ADCSequenceConfigure)
+                  000020e6    0000003c                   : ssi.obj (.text:SSIConfigSetExpClk)
+                  00002122    0000003a     grlib.lib : string.obj (.text:FontGlyphDataGet)
+                  0000215c    00000036               : line.obj (.text:GrClipCodeGet)
+                  00002192    00000002     --HOLE-- [fill = 0]
+                  00002194    00000034     driverlib.lib : sysctl.obj (.text:SysCtlPeripheralEnable)
+                  000021c8    00000034     rtsv7M4_T_le_v4SPD16_eabi.lib : boot_cortex_m.c.obj (.text:_c_int00_noargs:_c_int00_noargs)
+                  000021fc    0000002e     driverlib.lib : adc.obj (.text:ADCIntStatus)
+                  0000222a    0000002e     grlib.lib : string.obj (.text:GrStringNextCharGet)
+                  00002258    0000002a     driverlib.lib : gpio.obj (.text:GPIODirModeSet)
+                  00002282    00000026     grlib.lib : string.obj (.text:GrFontInfoGet)
+                  000022a8    00000024     driverlib.lib : interrupt.obj (.text:IntPrioritySet)
+                  000022cc    00000022     grlib.lib : string.obj (.text:GrFontGlyphDataGet)
+                  000022ee    0000001e     driverlib.lib : adc.obj (.text:ADCSequenceDataGet)
+                  0000230c    0000001e     grlib.lib : string.obj (.text:GrFontCodepageGet)
+                  0000232a    00000002     --HOLE-- [fill = 0]
+                  0000232c    0000001c     driverlib.lib : sysctl.obj (.text:_SysCtlMemTimingGet)
+                  00002348    0000001a     tm4c1294ncpdt_startup_ccs.obj (.text)
+                  00002362    00000018     driverlib.lib : adc.obj (.text:ADCClockConfigSet)
+                  0000237a    00000018                   : adc.obj (.text:ADCProcessorTrigger)
+                  00002392    00000018                   : gpio.obj (.text:GPIOPinTypeGPIOOutput)
+                  000023aa    00000002     --HOLE-- [fill = 0]
+                  000023ac    00000014                   : timer.obj (.text:TimerDisable)
+                  000023c0    00000012                   : gpio.obj (.text:GPIOPinTypeADC)
+                  000023d2    00000012                   : gpio.obj (.text:GPIOPinTypeGPIOInput)
+                  000023e4    00000012                   : gpio.obj (.text:GPIOPinTypeSSI)
+                  000023f6    00000012                   : timer.obj (.text:TimerLoadSet)
+                  00002408    00000010                   : adc.obj (.text:ADCIntEnable)
+                  00002418    00000010                   : fpu.obj (.text:FPUEnable)
+                  00002428    00000010                   : fpu.obj (.text:FPULazyStackingEnable)
+                  00002438    00000010                   : interrupt.obj (.text:IntMasterDisable)
+                  00002448    00000010                   : interrupt.obj (.text:IntMasterEnable)
+                  00002458    0000000e                   : adc.obj (.text:ADCSequenceDisable)
+                  00002466    0000000e                   : adc.obj (.text:ADCSequenceEnable)
+                  00002474    0000000e                   : timer.obj (.text:TimerEnable)
+                  00002482    0000000e     rtsv7M4_T_le_v4SPD16_eabi.lib : copy_decompress_none.c.obj (.text:decompress:none:__TI_decompress_none)
+                  00002490    0000000c     driverlib.lib : cpu.obj (.text:CPUcpsid)
+                  0000249c    0000000c                   : cpu.obj (.text:CPUcpsie)
+                  000024a8    0000000c     rtsv7M4_T_le_v4SPD16_eabi.lib : copy_zero_init.c.obj (.text:decompress:ZI:__TI_zero_init)
+                  000024b4    0000000a     driverlib.lib : adc.obj (.text:ADCIntClear)
+                  000024be    0000000a                   : ssi.obj (.text:SSIDataPut)
+                  000024c8    0000000a                   : ssi.obj (.text:SSIEnable)
+                  000024d2    00000008     grlib.lib : charmap.obj (.text:GrMapISO8859_1_Unicode)
+                  000024da    00000008     driverlib.lib : ssi.obj (.text:SSIBusy)
+                  000024e2    00000008                   : timer.obj (.text:TimerIntEnable)
+                  000024ea    00000006                   : gpio.obj (.text:GPIOPinRead)
+                  000024f0    00000006                   : gpio.obj (.text:GPIOPinWrite)
+                  000024f6    00000006     grlib.lib : string.obj (.text:GrContextFontSet)
+                  000024fc    00000006     driverlib.lib : sysctl.obj (.text:SysCtlDelay)
+                  00002502    00000004     rtsv7M4_T_le_v4SPD16_eabi.lib : pre_init.c.obj (.text:_system_pre_init)
+                  00002506    00000004                                   : exit.c.obj (.text:abort:abort)
 
-.const     0    000022cc    00000758     
-                  000022cc    000002f8     grlib.lib : fontfixed6x8.obj (.const:.string:g_pui8FontFixed6x8Data)
-                  000025c4    00000120     driverlib.lib : sysctl.obj (.const:g_pppui32XTALtoVCO)
-                  000026e4    000000c8     grlib.lib : fontfixed6x8.obj (.const:g_sFontFixed6x8)
-                  000027ac    0000009c     driverlib.lib : interrupt.obj (.const:g_pui32Regs)
-                  00002848    00000090                   : gpio.obj (.const:g_pui32GPIOBaseAddrs)
-                  000028d8    00000070                   : interrupt.obj (.const)
-                  00002948    0000006c                   : sysctl.obj (.const:g_pui32Xtals)
-                  000029b4    00000030                   : sysctl.obj (.const:g_sXTALtoMEMTIM)
-                  000029e4    00000028     Crystalfontz128x128_ST7735.obj (.const:g_sCrystalfontz128x128)
-                  00002a0c    00000010     grlib.lib : context.obj (.const)
-                  00002a1c    00000008     driverlib.lib : sysctl.obj (.const)
+.const     0    0000250c    00000758     
+                  0000250c    000002f8     grlib.lib : fontfixed6x8.obj (.const:.string:g_pui8FontFixed6x8Data)
+                  00002804    00000120     driverlib.lib : sysctl.obj (.const:g_pppui32XTALtoVCO)
+                  00002924    000000c8     grlib.lib : fontfixed6x8.obj (.const:g_sFontFixed6x8)
+                  000029ec    0000009c     driverlib.lib : interrupt.obj (.const:g_pui32Regs)
+                  00002a88    00000090                   : gpio.obj (.const:g_pui32GPIOBaseAddrs)
+                  00002b18    00000070                   : interrupt.obj (.const)
+                  00002b88    0000006c                   : sysctl.obj (.const:g_pui32Xtals)
+                  00002bf4    00000030                   : sysctl.obj (.const:g_sXTALtoMEMTIM)
+                  00002c24    00000028     Crystalfontz128x128_ST7735.obj (.const:g_sCrystalfontz128x128)
+                  00002c4c    00000010     grlib.lib : context.obj (.const)
+                  00002c5c    00000008     driverlib.lib : sysctl.obj (.const)
 
-.cinit     0    00002a28    00000040     
-                  00002a28    00000018     (.cinit..data.load) [load image, compression = lzss]
-                  00002a40    0000000c     (__TI_handler_table)
-                  00002a4c    00000004     --HOLE-- [fill = 0]
-                  00002a50    00000008     (.cinit..bss.load) [load image, compression = zero_init]
-                  00002a58    00000010     (__TI_cinit_table)
+.cinit     0    00002c68    00000040     
+                  00002c68    0000001c     (.cinit..data.load) [load image, compression = lzss]
+                  00002c84    0000000c     (__TI_handler_table)
+                  00002c90    00000008     (.cinit..bss.load) [load image, compression = zero_init]
+                  00002c98    00000010     (__TI_cinit_table)
 
 .init_array 
 *          0    00000000    00000000     UNINITIALIZED
 
-.data      0    20000000    0000803c     UNINITIALIZED
+.data      0    20000000    0000804c     UNINITIALIZED
                   20000000    00008000     Crystalfontz128x128_ST7735.obj (.data:Lcd_buffer)
                   20008000    00000024     buttons.obj (.data:count$2)
-                  20008024    0000000a     buttons.obj (.data)
-                  2000802e    00000002     --HOLE--
-                  20008030    00000008     buttons.obj (.data:gJoystick)
-                  20008038    00000004     main.obj (.data)
+                  20008024    00000012     buttons.obj (.data)
+                  20008036    00000002     --HOLE--
+                  20008038    0000000c     main.obj (.data)
+                  20008044    00000008     buttons.obj (.data:gJoystick)
 
-.bss       0    2000803c    0000114e     UNINITIALIZED
-                  2000803c    00001000     (.common:gADCBuffer)
-                  2000903c    00000100     (.common:gWaveformBuffer)
-                  2000913c    00000014     buttons.obj (.bss:state$1)
-                  20009150    0000000c     (.common:triggerBuffer)
-                  2000915c    00000004     (.common:fScale)
-                  20009160    00000004     (.common:gADCErrors)
-                  20009164    00000004     (.common:gADCSamplingRate)
-                  20009168    00000004     (.common:gSystemClock)
-                  2000916c    00000004     (.common:g_psGrLibDefaults)
-                  20009170    00000004     (.common:temp0)
-                  20009174    00000004     (.common:temp1)
-                  20009178    00000004     (.common:y)
-                  2000917c    00000002     (.common:Lcd_ScreenHeigth)
-                  2000917e    00000002     (.common:Lcd_ScreenWidth)
-                  20009180    00000002     (.common:Lcd_TouchTrim)
-                  20009182    00000002     (.common:fVoltsPerDiv)
-                  20009184    00000002     (.common:sample)
-                  20009186    00000001     (.common:Lcd_FlagRead)
-                  20009187    00000001     (.common:Lcd_FontSolid)
-                  20009188    00000001     (.common:Lcd_Orientation)
-                  20009189    00000001     (.common:Lcd_PenSolid)
+.bss       0    2000804c    0000206d     UNINITIALIZED
+                  2000804c    00001000     (.common:gADCBuffer)
+                  2000904c    00001000     (.common:gWaveformBuffer)
+                  2000a04c    00000014     buttons.obj (.bss:state$1)
+                  2000a060    0000000c     (.common:fifo)
+                  2000a06c    0000000c     (.common:triggerBuffer)
+                  2000a078    00000004     (.common:buttons)
+                  2000a07c    00000004     (.common:fScale)
+                  2000a080    00000004     (.common:gADCErrors)
+                  2000a084    00000004     (.common:gADCSamplingRate)
+                  2000a088    00000004     (.common:gSystemClock)
+                  2000a08c    00000004     (.common:gTriggerIndex)
+                  2000a090    00000004     (.common:g_psGrLibDefaults)
+                  2000a094    00000004     (.common:i)
+                  2000a098    00000004     (.common:j)
+                  2000a09c    00000004     (.common:temp0)
+                  2000a0a0    00000004     (.common:temp1)
+                  2000a0a4    00000004     (.common:y)
+                  2000a0a8    00000004     (.common:y_old)
+                  2000a0ac    00000002     (.common:Lcd_ScreenHeigth)
+                  2000a0ae    00000002     (.common:Lcd_ScreenWidth)
+                  2000a0b0    00000002     (.common:Lcd_TouchTrim)
+                  2000a0b2    00000002     (.common:sample)
+                  2000a0b4    00000001     (.common:Lcd_FlagRead)
+                  2000a0b5    00000001     (.common:Lcd_FontSolid)
+                  2000a0b6    00000001     (.common:Lcd_Orientation)
+                  2000a0b7    00000001     (.common:Lcd_PenSolid)
+                  2000a0b8    00000001     (.common:buttonRead)
 
-.stack     0    20009190    00000800     UNINITIALIZED
-                  20009190    00000004     rtsv7M4_T_le_v4SPD16_eabi.lib : boot_cortex_m.c.obj (.stack)
-                  20009194    000007fc     --HOLE--
+.stack     0    2000a0c0    00000800     UNINITIALIZED
+                  2000a0c0    00000004     rtsv7M4_T_le_v4SPD16_eabi.lib : boot_cortex_m.c.obj (.stack)
+                  2000a0c4    000007fc     --HOLE--
 
 MODULE SUMMARY
 
@@ -183,67 +193,64 @@ MODULE SUMMARY
        ------                                             ----   -------   -------
     .\
        Crystalfontz128x128_ST7735.obj                     1008   40        32778  
-       buttons.obj                                        2436   0         4466   
+       buttons.obj                                        1566   0         8306   
+       main.obj                                           1254   0         55     
        tm4c1294ncpdt_startup_ccs.obj                      26     520       0      
        HAL_EK_TM4C1294XL_Crystalfontz128x128_ST7735.obj   382    0         0      
-       main.obj                                           178    0         8      
-       sysctl_pll.obj                                     74     0         0      
     +--+--------------------------------------------------+------+---------+---------+
-       Total:                                             4104   560       37252  
+       Total:                                             4236   560       41139  
                                                                                   
     C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/driverlib/ccs/Debug/driverlib.lib
        sysctl.obj                                         674    452       0      
        gpio.obj                                           508    144       0      
        interrupt.obj                                      172    268       0      
        adc.obj                                            362    0         0      
-       timer.obj                                          160    0         0      
+       timer.obj                                          248    0         0      
        ssi.obj                                            88     0         0      
        fpu.obj                                            32     0         0      
        cpu.obj                                            24     0         0      
     +--+--------------------------------------------------+------+---------+---------+
-       Total:                                             2020   864       0      
+       Total:                                             2108   864       0      
                                                                                   
     C:/ti/tirtos_tivac_2_16_00_08/products/TivaWare_C_Series-2.1.1.71b/grlib/ccs/Debug/grlib.lib
        string.obj                                         1170   0         0      
        fontfixed6x8.obj                                   0      960       0      
+       line.obj                                           648    0         0      
        rectangle.obj                                      134    0         0      
        context.obj                                        104    16        4      
        charmap.obj                                        8      0         0      
     +--+--------------------------------------------------+------+---------+---------+
-       Total:                                             1416   976       4      
+       Total:                                             2064   976       4      
                                                                                   
-    C:\ti\ccsv8\tools\compiler\ti-cgt-arm_18.1.2.LTS\lib\rtsv7M4_T_le_v4SPD16_eabi.lib
+    C:\ti\ccs900\ccs\tools\compiler\ti-cgt-arm_18.12.1.LTS\lib\rtsv7M4_T_le_v4SPD16_eabi.lib
        memcpy_t2.asm.obj                                  156    0         0      
-       s_floorf.c.obj                                     128    0         0      
        memset_t2.asm.obj                                  122    0         0      
-       s_roundf.c.obj                                     110    0         0      
        copy_decompress_lzss.c.obj                         104    0         0      
        autoinit.c.obj                                     68     0         0      
-       boot_cortex_m.c.obj                                56     0         0      
-       fs_tod_t2.asm.obj                                  56     0         0      
+       boot_cortex_m.c.obj                                52     0         0      
        copy_decompress_none.c.obj                         14     0         0      
        copy_zero_init.c.obj                               12     0         0      
        exit.c.obj                                         4      0         0      
        pre_init.c.obj                                     4      0         0      
     +--+--------------------------------------------------+------+---------+---------+
-       Total:                                             834    0         0      
+       Total:                                             536    0         0      
                                                                                   
        Stack:                                             0      0         2048   
-       Linker Generated:                                  0      60        0      
+       Linker Generated:                                  0      64        0      
     +--+--------------------------------------------------+------+---------+---------+
-       Grand Total:                                       8374   2460      39304  
+       Grand Total:                                       8944   2464      43191  
 
 
 LINKER GENERATED COPY TABLES
 
-__TI_cinit_table @ 00002a58 records: 2, size/record: 8, table size: 16
-	.data: load addr=00002a28, load size=00000018 bytes, run addr=20000000, run size=0000803c bytes, compression=lzss
-	.bss: load addr=00002a50, load size=00000008 bytes, run addr=2000803c, run size=0000114e bytes, compression=zero_init
+__TI_cinit_table @ 00002c98 records: 2, size/record: 8, table size: 16
+	.data: load addr=00002c68, load size=0000001c bytes, run addr=20000000, run size=0000804c bytes, compression=lzss
+	.bss: load addr=00002c90, load size=00000008 bytes, run addr=2000804c, run size=0000206d bytes, compression=zero_init
 
 
 LINKER GENERATED HANDLER TABLE
 
-__TI_handler_table @ 00002a40 records: 3, size/record: 4, table size: 12
+__TI_handler_table @ 00002c84 records: 3, size/record: 4, table size: 12
 	index: 0, handler: __TI_decompress_lzss
 	index: 1, handler: __TI_decompress_none
 	index: 2, handler: __TI_zero_init
@@ -253,140 +260,152 @@ GLOBAL SYMBOLS: SORTED ALPHABETICALLY BY Name
 
 address   name                              
 -------   ----                              
-00002133  ADCClockConfigSet                 
-00002285  ADCIntClear                       
-000021d9  ADCIntEnable                      
-00001fc9  ADCIntStatus                      
-0000214b  ADCProcessorTrigger               
-00001e71  ADCSequenceConfigure              
-000020bb  ADCSequenceDataGet                
-00002229  ADCSequenceDisable                
-00002237  ADCSequenceEnable                 
-000019ad  ADCSequenceStepConfigure          
-00000af9  ADC_ISR                           
-00000969  ButtonAutoRepeat                  
-000008f9  ButtonDebounce                    
-000009e9  ButtonISR                         
-000006a9  ButtonInit                        
-000005c9  ButtonReadJoystick                
-00001d4d  C$$EXIT                           
-00002261  CPUcpsid                          
-0000226d  CPUcpsie                          
-00000eb9  Crystalfontz128x128_Init          
-00000bd9  Crystalfontz128x128_SetDrawFrame  
-00000b91  Crystalfontz128x128_SetOrientation
-000021e9  FPUEnable                         
-000021f9  FPULazyStackingEnable             
-00002025  GPIODirModeSet                    
-0000155f  GPIOPadConfigSet                  
-00001d9d  GPIOPinConfigure                  
-00001753  GPIOPinRead                       
-00002191  GPIOPinTypeADC                    
-000021a3  GPIOPinTypeGPIOInput              
-00002163  GPIOPinTypeGPIOOutput             
-000021b5  GPIOPinTypeSSI                    
-000022bb  GPIOPinWrite                      
-000022c1  GrContextFontSet                  
-00001b11  GrContextInit                     
-0000168f  GrDefaultStringRenderer           
-000020d9  GrFontCodepageGet                 
-00002099  GrFontGlyphDataGet                
-00000f81  GrFontGlyphRender                 
-0000204f  GrFontInfoGet                     
-000022a3  GrMapISO8859_1_Unicode            
-000018a7  GrRectFill                        
-00001ff7  GrStringNextCharGet               
-000014d1  HAL_LCD_PortInit                  
-00001441  HAL_LCD_SpiInit                   
-000013f1  HAL_LCD_writeCommand              
-000013e1  HAL_LCD_writeData                 
-00001b79  IntEnable                         
-00002209  IntMasterDisable                  
-00002219  IntMasterEnable                   
-00002075  IntPrioritySet                    
-20009186  Lcd_FlagRead                      
-20009187  Lcd_FontSolid                     
-20009188  Lcd_Orientation                   
-20009189  Lcd_PenSolid                      
-2000917c  Lcd_ScreenHeigth                  
-2000917e  Lcd_ScreenWidth                   
-20009180  Lcd_TouchTrim                     
+00002363  ADCClockConfigSet                 
+000024b5  ADCIntClear                       
+00002409  ADCIntEnable                      
+000021fd  ADCIntStatus                      
+0000237b  ADCProcessorTrigger               
+000020a9  ADCSequenceConfigure              
+000022ef  ADCSequenceDataGet                
+00002459  ADCSequenceDisable                
+00002467  ADCSequenceEnable                 
+00001bbb  ADCSequenceStepConfigure          
+000007d9  ADC_ISR                           
+00000649  ButtonAutoRepeat                  
+000005d9  ButtonDebounce                    
+000006c9  ButtonISR                         
+00000369  ButtonInit                        
+00000289  ButtonReadJoystick                
+00002507  C$$EXIT                           
+00002491  CPUcpsid                          
+0000249d  CPUcpsie                          
+00001039  Crystalfontz128x128_Init          
+00000d59  Crystalfontz128x128_SetDrawFrame  
+00000d11  Crystalfontz128x128_SetOrientation
+00002419  FPUEnable                         
+00002429  FPULazyStackingEnable             
+00002259  GPIODirModeSet                    
+000016df  GPIOPadConfigSet                  
+00001f49  GPIOPinConfigure                  
+000024eb  GPIOPinRead                       
+000023c1  GPIOPinTypeADC                    
+000023d3  GPIOPinTypeGPIOInput              
+00002393  GPIOPinTypeGPIOOutput             
+000023e5  GPIOPinTypeSSI                    
+000024f1  GPIOPinWrite                      
+000024f7  GrContextFontSet                  
+00001cb1  GrContextInit                     
+00001915  GrDefaultStringRenderer           
+0000230d  GrFontCodepageGet                 
+000022cd  GrFontGlyphDataGet                
+00001101  GrFontGlyphRender                 
+00002283  GrFontInfoGet                     
+0000180f  GrLineDraw                        
+00001fd9  GrLineDrawH                       
+0000201f  GrLineDrawV                       
+000024d3  GrMapISO8859_1_Unicode            
+00001b35  GrRectFill                        
+0000222b  GrStringNextCharGet               
+00001651  HAL_LCD_PortInit                  
+000015c1  HAL_LCD_SpiInit                   
+00001571  HAL_LCD_writeCommand              
+00001561  HAL_LCD_writeData                 
+00001d19  IntEnable                         
+00002439  IntMasterDisable                  
+00002449  IntMasterEnable                   
+000022a9  IntPrioritySet                    
+2000a0b4  Lcd_FlagRead                      
+2000a0b5  Lcd_FontSolid                     
+2000a0b6  Lcd_Orientation                   
+2000a0b7  Lcd_PenSolid                      
+2000a0ac  Lcd_ScreenHeigth                  
+2000a0ae  Lcd_ScreenWidth                   
+2000a0b0  Lcd_TouchTrim                     
 20000000  Lcd_buffer                        
-00002119  ResetISR                          
-000022ab  SSIBusy                           
-00001eaf  SSIConfigSetExpClk                
-0000228f  SSIDataPut                        
-00002299  SSIEnable                         
-000011d9  SysCtlClockFreqSet                
-000022c7  SysCtlDelay                       
-00001d51  SysCtlFrequencyGet                
-00001f95  SysCtlPeripheralEnable            
-00001c49  TimerConfigure                    
-0000217d  TimerDisable                      
-00002245  TimerEnable                       
-00000b8d  TimerIntClear                     
-000022b3  TimerIntEnable                    
-000021c7  TimerLoadSet                      
-00000209  WAVEFORM_ISR                      
-20009990  __STACK_END                       
+00002349  ResetISR                          
+000024db  SSIBusy                           
+000020e7  SSIConfigSetExpClk                
+000024bf  SSIDataPut                        
+000024c9  SSIEnable                         
+00001359  SysCtlClockFreqSet                
+000024fd  SysCtlDelay                       
+00002195  SysCtlPeripheralEnable            
+00001de9  TimerConfigure                    
+00001ea5  TimerControlTrigger               
+000023ad  TimerDisable                      
+00002475  TimerEnable                       
+0000155d  TimerIntClear                     
+000024e3  TimerIntEnable                    
+000023f7  TimerLoadSet                      
+2000a8c0  __STACK_END                       
 00000800  __STACK_SIZE                      
-20009390  __STACK_TOP                       
-00002a58  __TI_CINIT_Base                   
-00002a68  __TI_CINIT_Limit                  
-00002a40  __TI_Handler_Table_Base           
-00002a4c  __TI_Handler_Table_Limit          
-00001e2d  __TI_auto_init_nobinit_nopinit    
-00001be1  __TI_decompress_lzss              
-00002253  __TI_decompress_none              
+2000a2c0  __STACK_TOP                       
+00002c98  __TI_CINIT_Base                   
+00002ca8  __TI_CINIT_Limit                  
+00002c84  __TI_Handler_Table_Base           
+00002c90  __TI_Handler_Table_Limit          
+00002065  __TI_auto_init_nobinit_nopinit    
+00001d81  __TI_decompress_lzss              
+00002483  __TI_decompress_none              
 ffffffff  __TI_pprof_out_hndl               
 ffffffff  __TI_prof_data_size               
 ffffffff  __TI_prof_data_start              
 00000000  __TI_static_base__                
-00002279  __TI_zero_init                    
-00001f5d  __aeabi_f2d                       
-00001a27  __aeabi_memclr                    
-00001a27  __aeabi_memclr4                   
-00001a27  __aeabi_memclr8                   
-0000180b  __aeabi_memcpy                    
-0000180b  __aeabi_memcpy4                   
-0000180b  __aeabi_memcpy8                   
-00001a29  __aeabi_memset                    
-00001a29  __aeabi_memset4                   
-00001a29  __aeabi_memset8                   
+000024a9  __TI_zero_init                    
+00001c35  __aeabi_memclr                    
+00001c35  __aeabi_memclr4                   
+00001c35  __aeabi_memclr8                   
+00001a99  __aeabi_memcpy                    
+00001a99  __aeabi_memcpy4                   
+00001a99  __aeabi_memcpy8                   
+00001c37  __aeabi_memset                    
+00001c37  __aeabi_memset4                   
+00001c37  __aeabi_memset8                   
 ffffffff  __binit__                         
 ffffffff  __c_args__                        
 UNDEFED   __mpu_init                        
-20009190  __stack                           
-00001f25  _c_int00_noargs                   
+2000a0c0  __stack                           
+000021c9  _c_int00_noargs                   
 UNDEFED   _system_post_cinit                
-000013dd  _system_pre_init                  
-00001d4d  abort                             
+00002503  _system_pre_init                  
+00002507  abort                             
 ffffffff  binit                             
-2000915c  fScale                            
-20009182  fVoltsPerDiv                      
-0000192d  floorf                            
-2000803c  gADCBuffer                        
-20008028  gADCBufferIndex                   
-20009160  gADCErrors                        
-20009164  gADCSamplingRate                  
-20008024  gButtons                          
-20008030  gJoystick                         
-20009168  gSystemClock                      
+00000829  buttonChar                        
+2000a0b8  buttonRead                        
+2000a078  buttons                           
+2000a07c  fScale                            
+2000803c  fVoltsPerDiv                      
+2000a060  fifo                              
+00000241  fifo_get                          
+20008024  fifo_head                         
+00000209  fifo_put                          
+20008028  fifo_tail                         
+2000804c  gADCBuffer                        
+20008030  gADCBufferIndex                   
+2000a080  gADCErrors                        
+2000a084  gADCSamplingRate                  
+2000802c  gButtons                          
+20008044  gJoystick                         
+2000a088  gSystemClock                      
 20008038  gTime                             
-2000903c  gWaveformBuffer                   
+2000a08c  gTriggerIndex                     
+2000904c  gWaveformBuffer                   
 00000000  g_pfnVectors                      
-00002a0c  g_psDefaultCodePointMapTable      
-000029e4  g_sCrystalfontz128x128            
-000026e4  g_sFontFixed6x8                   
-00001759  main                              
-0000180b  memcpy                            
-00001a2f  memset                            
-00001aa1  roundf                            
-20009184  sample                            
-20009170  temp0                             
-20009174  temp1                             
-20009150  triggerBuffer                     
-20009178  y                                 
+00002c4c  g_psDefaultCodePointMapTable      
+00002c24  g_sCrystalfontz128x128            
+00002924  g_sFontFixed6x8                   
+2000a094  i                                 
+2000a098  j                                 
+00000879  main                              
+00001a99  memcpy                            
+00001c3d  memset                            
+2000a0b2  sample                            
+2000a09c  temp0                             
+2000a0a0  temp1                             
+2000a06c  triggerBuffer                     
+20008040  triggerSlope                      
+2000a0a4  y                                 
+2000a0a8  y_old                             
 
 
 GLOBAL SYMBOLS: SORTED BY Symbol Address 
@@ -395,130 +414,142 @@ address   name
 -------   ----                              
 00000000  __TI_static_base__                
 00000000  g_pfnVectors                      
-00000209  WAVEFORM_ISR                      
-000005c9  ButtonReadJoystick                
-000006a9  ButtonInit                        
+00000209  fifo_put                          
+00000241  fifo_get                          
+00000289  ButtonReadJoystick                
+00000369  ButtonInit                        
+000005d9  ButtonDebounce                    
+00000649  ButtonAutoRepeat                  
+000006c9  ButtonISR                         
+000007d9  ADC_ISR                           
 00000800  __STACK_SIZE                      
-000008f9  ButtonDebounce                    
-00000969  ButtonAutoRepeat                  
-000009e9  ButtonISR                         
-00000af9  ADC_ISR                           
-00000b8d  TimerIntClear                     
-00000b91  Crystalfontz128x128_SetOrientation
-00000bd9  Crystalfontz128x128_SetDrawFrame  
-00000eb9  Crystalfontz128x128_Init          
-00000f81  GrFontGlyphRender                 
-000011d9  SysCtlClockFreqSet                
-000013dd  _system_pre_init                  
-000013e1  HAL_LCD_writeData                 
-000013f1  HAL_LCD_writeCommand              
-00001441  HAL_LCD_SpiInit                   
-000014d1  HAL_LCD_PortInit                  
-0000155f  GPIOPadConfigSet                  
-0000168f  GrDefaultStringRenderer           
-00001753  GPIOPinRead                       
-00001759  main                              
-0000180b  __aeabi_memcpy                    
-0000180b  __aeabi_memcpy4                   
-0000180b  __aeabi_memcpy8                   
-0000180b  memcpy                            
-000018a7  GrRectFill                        
-0000192d  floorf                            
-000019ad  ADCSequenceStepConfigure          
-00001a27  __aeabi_memclr                    
-00001a27  __aeabi_memclr4                   
-00001a27  __aeabi_memclr8                   
-00001a29  __aeabi_memset                    
-00001a29  __aeabi_memset4                   
-00001a29  __aeabi_memset8                   
-00001a2f  memset                            
-00001aa1  roundf                            
-00001b11  GrContextInit                     
-00001b79  IntEnable                         
-00001be1  __TI_decompress_lzss              
-00001c49  TimerConfigure                    
-00001d4d  C$$EXIT                           
-00001d4d  abort                             
-00001d51  SysCtlFrequencyGet                
-00001d9d  GPIOPinConfigure                  
-00001e2d  __TI_auto_init_nobinit_nopinit    
-00001e71  ADCSequenceConfigure              
-00001eaf  SSIConfigSetExpClk                
-00001f25  _c_int00_noargs                   
-00001f5d  __aeabi_f2d                       
-00001f95  SysCtlPeripheralEnable            
-00001fc9  ADCIntStatus                      
-00001ff7  GrStringNextCharGet               
-00002025  GPIODirModeSet                    
-0000204f  GrFontInfoGet                     
-00002075  IntPrioritySet                    
-00002099  GrFontGlyphDataGet                
-000020bb  ADCSequenceDataGet                
-000020d9  GrFontCodepageGet                 
-00002119  ResetISR                          
-00002133  ADCClockConfigSet                 
-0000214b  ADCProcessorTrigger               
-00002163  GPIOPinTypeGPIOOutput             
-0000217d  TimerDisable                      
-00002191  GPIOPinTypeADC                    
-000021a3  GPIOPinTypeGPIOInput              
-000021b5  GPIOPinTypeSSI                    
-000021c7  TimerLoadSet                      
-000021d9  ADCIntEnable                      
-000021e9  FPUEnable                         
-000021f9  FPULazyStackingEnable             
-00002209  IntMasterDisable                  
-00002219  IntMasterEnable                   
-00002229  ADCSequenceDisable                
-00002237  ADCSequenceEnable                 
-00002245  TimerEnable                       
-00002253  __TI_decompress_none              
-00002261  CPUcpsid                          
-0000226d  CPUcpsie                          
-00002279  __TI_zero_init                    
-00002285  ADCIntClear                       
-0000228f  SSIDataPut                        
-00002299  SSIEnable                         
-000022a3  GrMapISO8859_1_Unicode            
-000022ab  SSIBusy                           
-000022b3  TimerIntEnable                    
-000022bb  GPIOPinWrite                      
-000022c1  GrContextFontSet                  
-000022c7  SysCtlDelay                       
-000026e4  g_sFontFixed6x8                   
-000029e4  g_sCrystalfontz128x128            
-00002a0c  g_psDefaultCodePointMapTable      
-00002a40  __TI_Handler_Table_Base           
-00002a4c  __TI_Handler_Table_Limit          
-00002a58  __TI_CINIT_Base                   
-00002a68  __TI_CINIT_Limit                  
+00000829  buttonChar                        
+00000879  main                              
+00000d11  Crystalfontz128x128_SetOrientation
+00000d59  Crystalfontz128x128_SetDrawFrame  
+00001039  Crystalfontz128x128_Init          
+00001101  GrFontGlyphRender                 
+00001359  SysCtlClockFreqSet                
+0000155d  TimerIntClear                     
+00001561  HAL_LCD_writeData                 
+00001571  HAL_LCD_writeCommand              
+000015c1  HAL_LCD_SpiInit                   
+00001651  HAL_LCD_PortInit                  
+000016df  GPIOPadConfigSet                  
+0000180f  GrLineDraw                        
+00001915  GrDefaultStringRenderer           
+00001a99  __aeabi_memcpy                    
+00001a99  __aeabi_memcpy4                   
+00001a99  __aeabi_memcpy8                   
+00001a99  memcpy                            
+00001b35  GrRectFill                        
+00001bbb  ADCSequenceStepConfigure          
+00001c35  __aeabi_memclr                    
+00001c35  __aeabi_memclr4                   
+00001c35  __aeabi_memclr8                   
+00001c37  __aeabi_memset                    
+00001c37  __aeabi_memset4                   
+00001c37  __aeabi_memset8                   
+00001c3d  memset                            
+00001cb1  GrContextInit                     
+00001d19  IntEnable                         
+00001d81  __TI_decompress_lzss              
+00001de9  TimerConfigure                    
+00001ea5  TimerControlTrigger               
+00001f49  GPIOPinConfigure                  
+00001fd9  GrLineDrawH                       
+0000201f  GrLineDrawV                       
+00002065  __TI_auto_init_nobinit_nopinit    
+000020a9  ADCSequenceConfigure              
+000020e7  SSIConfigSetExpClk                
+00002195  SysCtlPeripheralEnable            
+000021c9  _c_int00_noargs                   
+000021fd  ADCIntStatus                      
+0000222b  GrStringNextCharGet               
+00002259  GPIODirModeSet                    
+00002283  GrFontInfoGet                     
+000022a9  IntPrioritySet                    
+000022cd  GrFontGlyphDataGet                
+000022ef  ADCSequenceDataGet                
+0000230d  GrFontCodepageGet                 
+00002349  ResetISR                          
+00002363  ADCClockConfigSet                 
+0000237b  ADCProcessorTrigger               
+00002393  GPIOPinTypeGPIOOutput             
+000023ad  TimerDisable                      
+000023c1  GPIOPinTypeADC                    
+000023d3  GPIOPinTypeGPIOInput              
+000023e5  GPIOPinTypeSSI                    
+000023f7  TimerLoadSet                      
+00002409  ADCIntEnable                      
+00002419  FPUEnable                         
+00002429  FPULazyStackingEnable             
+00002439  IntMasterDisable                  
+00002449  IntMasterEnable                   
+00002459  ADCSequenceDisable                
+00002467  ADCSequenceEnable                 
+00002475  TimerEnable                       
+00002483  __TI_decompress_none              
+00002491  CPUcpsid                          
+0000249d  CPUcpsie                          
+000024a9  __TI_zero_init                    
+000024b5  ADCIntClear                       
+000024bf  SSIDataPut                        
+000024c9  SSIEnable                         
+000024d3  GrMapISO8859_1_Unicode            
+000024db  SSIBusy                           
+000024e3  TimerIntEnable                    
+000024eb  GPIOPinRead                       
+000024f1  GPIOPinWrite                      
+000024f7  GrContextFontSet                  
+000024fd  SysCtlDelay                       
+00002503  _system_pre_init                  
+00002507  C$$EXIT                           
+00002507  abort                             
+00002924  g_sFontFixed6x8                   
+00002c24  g_sCrystalfontz128x128            
+00002c4c  g_psDefaultCodePointMapTable      
+00002c84  __TI_Handler_Table_Base           
+00002c90  __TI_Handler_Table_Limit          
+00002c98  __TI_CINIT_Base                   
+00002ca8  __TI_CINIT_Limit                  
 20000000  Lcd_buffer                        
-20008024  gButtons                          
-20008028  gADCBufferIndex                   
-20008030  gJoystick                         
+20008024  fifo_head                         
+20008028  fifo_tail                         
+2000802c  gButtons                          
+20008030  gADCBufferIndex                   
 20008038  gTime                             
-2000803c  gADCBuffer                        
-2000903c  gWaveformBuffer                   
-20009150  triggerBuffer                     
-2000915c  fScale                            
-20009160  gADCErrors                        
-20009164  gADCSamplingRate                  
-20009168  gSystemClock                      
-20009170  temp0                             
-20009174  temp1                             
-20009178  y                                 
-2000917c  Lcd_ScreenHeigth                  
-2000917e  Lcd_ScreenWidth                   
-20009180  Lcd_TouchTrim                     
-20009182  fVoltsPerDiv                      
-20009184  sample                            
-20009186  Lcd_FlagRead                      
-20009187  Lcd_FontSolid                     
-20009188  Lcd_Orientation                   
-20009189  Lcd_PenSolid                      
-20009190  __stack                           
-20009390  __STACK_TOP                       
-20009990  __STACK_END                       
+2000803c  fVoltsPerDiv                      
+20008040  triggerSlope                      
+20008044  gJoystick                         
+2000804c  gADCBuffer                        
+2000904c  gWaveformBuffer                   
+2000a060  fifo                              
+2000a06c  triggerBuffer                     
+2000a078  buttons                           
+2000a07c  fScale                            
+2000a080  gADCErrors                        
+2000a084  gADCSamplingRate                  
+2000a088  gSystemClock                      
+2000a08c  gTriggerIndex                     
+2000a094  i                                 
+2000a098  j                                 
+2000a09c  temp0                             
+2000a0a0  temp1                             
+2000a0a4  y                                 
+2000a0a8  y_old                             
+2000a0ac  Lcd_ScreenHeigth                  
+2000a0ae  Lcd_ScreenWidth                   
+2000a0b0  Lcd_TouchTrim                     
+2000a0b2  sample                            
+2000a0b4  Lcd_FlagRead                      
+2000a0b5  Lcd_FontSolid                     
+2000a0b6  Lcd_Orientation                   
+2000a0b7  Lcd_PenSolid                      
+2000a0b8  buttonRead                        
+2000a0c0  __stack                           
+2000a2c0  __STACK_TOP                       
+2000a8c0  __STACK_END                       
 ffffffff  __TI_pprof_out_hndl               
 ffffffff  __TI_prof_data_size               
 ffffffff  __TI_prof_data_start              
@@ -528,4 +559,4 @@ ffffffff  binit
 UNDEFED   __mpu_init                        
 UNDEFED   _system_post_cinit                
 
-[134 symbols]
+[146 symbols]
