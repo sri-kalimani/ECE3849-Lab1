@@ -241,7 +241,6 @@ void buttonChar(uint32_t buttons){
     if(buttons&0x100)   //Down
         fifo_put('D');
 
-    return 0;
 }
 
 
