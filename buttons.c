@@ -23,7 +23,7 @@
 
 volatile int fifo_head = 0; // index of the first item in the FIFO
 volatile int fifo_tail = 0; // index one step past the last item
-volatile DataType fifo[FIFO_SIZE];
+volatile char fifo[FIFO_SIZE];
 
 // public globals
 volatile uint32_t gButtons = 0; // debounced button state, one per bit in the lowest bits
@@ -128,7 +128,7 @@ void ButtonInit(void)
 
 // put data into the FIFO, skip if full
 // returns 1 on success, 0 if FIFO was full
-int fifo_put(DataType data)
+int fifo_put(char data)
 {
     int new_tail = fifo_tail + 1;
     if (new_tail >= FIFO_SIZE) new_tail = 0; // wrap around
@@ -142,7 +142,7 @@ int fifo_put(DataType data)
 
 // get data from the FIFO
 // returns 1 on success, 0 if FIFO was empty
-int fifo_get(DataType *data)
+int fifo_get(char *data)
 {
     if (fifo_head != fifo_tail) {   // if the FIFO is not empty
         *data = fifo[fifo_head];    // read data from the FIFO

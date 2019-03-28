@@ -23,17 +23,19 @@ volatile uint32_t gTime = 8345; // time in hundredths of a second
 // temporary buffer storage variables
 volatile int32_t temp0, temp1;
 volatile int32_t gTriggerIndex;
-volatile int i,j;
+volatile int i, j, k, l;
 
 // data to display conversion variables
 uint16_t sample;
 uint16_t fVoltsPerDiv;
 float fScale;
 int y, y_old ;
+char buttonRead;
 
 //for interpreting gButtons and putting into FIFO
 uint32_t buttons; //local copy of gButtons
 
+char buttonChar(uint32_t buttons);
 
 int main(void)
 {
@@ -66,15 +68,20 @@ int main(void)
 //    GrRectFill(&sContext, &rectFullScreen); // fill screen with black
 
     while(1){
-//        if (gADCBufferIndex < 512)
-//            gTriggerIndex = gADCBufferIndex;
-//        else
 
-        buttons = gButtons; // read shared global only once
+        buttons = gButtons;
+        buttonRead = buttonChar(buttons);
+        fifo_put(buttonRead);
 
         GrContextForegroundSet(&sContext, ClrBlack);
         GrRectFill(&sContext, &rectFullScreen); // fill screen with black
         GrContextForegroundSet(&sContext, ClrYellow); // yellow text
+
+//        //draw grid
+//        k = 0;
+//        l = 0;
+//
+//        for(k = 1; k+=20; k<128)
 
         gTriggerIndex = gADCBufferIndex + 512;
         while(j<gTriggerIndex+1){
@@ -151,13 +158,6 @@ int main(void)
 //    }
 }
 
-//      snprintf(str1, sizeof(str1), "B1:%01u", (buttons & 0x04)); // print button1 state
-//        snprintf(str2, sizeof(str2), "B2:%01u", (buttons & 0x08)); // print button2 state
-//        snprintf(str3, sizeof(str3), "JSelect:%01u", (buttons & 0x10)); // print button2 state
-//        snprintf(str4, sizeof(str4), "JRight:%01u", (buttons & 0x20)); // print button2 state
-//        snprintf(str5, sizeof(str5), "JLeft:%01u", (buttons & 0x40)); // print button2 state
-//        snprintf(str6, sizeof(str6), "JUp:%01u", (buttons & 0x80)); // print button2 state
-//        snprintf(str7, sizeof(str7), "JDown:%01u", (buttons & 0x100)); // print button2 state
 
 char buttonChar(uint32_t buttons){
     if(buttons&0x01)    //USR_SW1
@@ -176,11 +176,10 @@ char buttonChar(uint32_t buttons){
         return 'L';
     if(buttons&0x80)    //Up
         return 'U';
-    if(buttons&0x100)    //Down
+    if(buttons&0x100)   //Down
         return 'D';
     else
         return '0';
-
 }
 
 

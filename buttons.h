@@ -45,8 +45,7 @@
 #define ADC_BITS 10
 
 #define FIFO_SIZE 11        // FIFO capacity is 1 item fewer
-typedef char DataType;      // FIFO data type
-extern volatile DataType fifo[FIFO_SIZE];  // FIFO storage array
+extern volatile char fifo[FIFO_SIZE];  // FIFO storage array
 extern volatile int fifo_head; // index of the first item in the FIFO
 extern volatile int fifo_tail; // index one step past the last item
 
@@ -75,5 +74,9 @@ void ADC_ISR(void);
 
 // autorepeat button presses if a button is held long enough
 uint32_t ButtonAutoRepeat(void);
+
+int fifo_put(char data);
+int fifo_get(char *data);
+
 
 #endif /* BUTTONS_H_ */
