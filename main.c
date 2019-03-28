@@ -31,6 +31,9 @@ uint16_t fVoltsPerDiv;
 float fScale;
 int y, y_old ;
 
+//for interpreting gButtons and putting into FIFO
+uint32_t buttons; //local copy of gButtons
+
 
 int main(void)
 {
@@ -66,8 +69,9 @@ int main(void)
 //        if (gADCBufferIndex < 512)
 //            gTriggerIndex = gADCBufferIndex;
 //        else
-        int fifo_success;
-        fifo_success = fifo.fifo_put(gButtons);
+
+        buttons = gButtons; // read shared global only once
+
         GrContextForegroundSet(&sContext, ClrBlack);
         GrRectFill(&sContext, &rectFullScreen); // fill screen with black
         GrContextForegroundSet(&sContext, ClrYellow); // yellow text
@@ -146,3 +150,40 @@ int main(void)
 //
 //    }
 }
+
+//      snprintf(str1, sizeof(str1), "B1:%01u", (buttons & 0x04)); // print button1 state
+//        snprintf(str2, sizeof(str2), "B2:%01u", (buttons & 0x08)); // print button2 state
+//        snprintf(str3, sizeof(str3), "JSelect:%01u", (buttons & 0x10)); // print button2 state
+//        snprintf(str4, sizeof(str4), "JRight:%01u", (buttons & 0x20)); // print button2 state
+//        snprintf(str5, sizeof(str5), "JLeft:%01u", (buttons & 0x40)); // print button2 state
+//        snprintf(str6, sizeof(str6), "JUp:%01u", (buttons & 0x80)); // print button2 state
+//        snprintf(str7, sizeof(str7), "JDown:%01u", (buttons & 0x100)); // print button2 state
+
+char buttonChar(uint32_t buttons){
+    if(buttons&0x01)    //USR_SW1
+        return '1';
+    if(buttons&0x02)    //USR_SW2
+        return '2';
+    if(buttons&0x04)    //S1
+        return 'A';
+    if(buttons&0x08)    //S2
+        return 'B';
+    if(buttons&0x10)    //Select
+        return 'S';
+    if(buttons&0x20)    //Right
+        return 'R';
+    if(buttons&0x40)    //Left
+        return 'L';
+    if(buttons&0x80)    //Up
+        return 'U';
+    if(buttons&0x100)    //Down
+        return 'D';
+    else
+        return '0';
+
+}
+
+
+
+
+
