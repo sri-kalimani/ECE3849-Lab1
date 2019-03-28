@@ -39,7 +39,8 @@
 #define ADC_BUFFER_SIZE 2048 // size must be a power of 2
 #define BUFFER_COPY_SIZE 1024
 #define ADC_BUFFER_WRAP(i) ((i) & (ADC_BUFFER_SIZE - 1)) // index wrapping macro
-#define ADC_OFFSET 2044
+#define ADC_OFFSET 1260
+#define ADC_OFFSET2 2045
 #define VIN_RANGE 3.3
 #define PIXELS_PER_DIV 20
 #define ADC_BITS 10

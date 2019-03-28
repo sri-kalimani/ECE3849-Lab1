@@ -88,8 +88,13 @@ void ButtonInit(void)
     //GPIO PE_0 = AIN3
     SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOE);
     GPIOPinTypeADC(GPIO_PORTE_BASE, GPIO_PIN_0); // GPIO setup for analog input AIN3
+    GPIOPinTypeGPIOInput(GPIO_PORTE_BASE, GPIO_PIN_0);
+    GPIOPadConfigSet(GPIO_PORTE_BASE, GPIO_PIN_0, GPIO_STRENGTH_2MA, GPIO_PIN_TYPE_STD_WPU);
+
+    // System peripheral enable for ADC0 and ADC1
     SysCtlPeripheralEnable(SYSCTL_PERIPH_ADC0); // initialize ADC peripherals
     SysCtlPeripheralEnable(SYSCTL_PERIPH_ADC1);
+
     // ADC clock
 //    uint32_t pll_frequency = SysCtlFrequencyGet(CRYSTAL_FREQUENCY);
     uint32_t pll_divisor = (pll_frequency - 1) / (16 * ADC_SAMPLING_RATE) + 1; //round up
@@ -115,7 +120,7 @@ void ButtonInit(void)
 //    pll_frequency = SysCtlFrequencyGet(CRYSTAL_FREQUENCY);
 //    uint32_t pll_divisor = (pll_frequency - 1) / (16 * ADC_SAMPLING_RATE) + 1; // round divisor up
     gADCSamplingRate = pll_frequency / (16 * pll_divisor); // actual sampling rate may differ from ADC_SAMPLING_RATE
-    ADCClockConfigSet(ADC0_BASE, ADC_CLOCK_SRC_PLL | ADC_CLOCK_RATE_FULL, pll_divisor); // only ADC0 has PLL clock divisor control
+//    ADCClockConfigSet(ADC0_BASE, ADC_CLOCK_SRC_PLL | ADC_CLOCK_RATE_FULL, pll_divisor); // only ADC0 has PLL clock divisor control
 
     // initialize ADC sampling sequence
     ADCSequenceDisable(ADC0_BASE, 0);
