@@ -137,7 +137,6 @@ int main(void)
                   if (i != 0){
 
                       GrLineDraw(&sContext,i-1, y_old, i, y); // print dots at the height of y
-                      GrFlush(&sContext);
                   }
                   y_old = y;
                }
@@ -153,7 +152,6 @@ int main(void)
                   if (i != 0){
 
                       GrLineDraw(&sContext,i-1, y_old, i, y); // print dots at the height of y
-                      GrFlush(&sContext);
                   }
                   y_old = y;
               }
