@@ -56,18 +56,23 @@ int main(void)
     i = 0;
 
     tRectangle rectFullScreen = {0, 0, GrContextDpyWidthGet(&sContext)-1, GrContextDpyHeightGet(&sContext)-1};
-    fVoltsPerDiv = 0.015625;
+    fVoltsPerDiv = 1;
     fScale = (VIN_RANGE * PIXELS_PER_DIV)/((1 << ADC_BITS) * fVoltsPerDiv);
+
+//    GrContextForegroundSet(&sContext, ClrBlack);
+//    GrRectFill(&sContext, &rectFullScreen); // fill screen with black
 
     while(1){
 //        if (gADCBufferIndex < 512)
 //            gTriggerIndex = gADCBufferIndex;
 //        else
-        gTriggerIndex = gADCBufferIndex + 512;
+        int fifo_success;
+        fifo_success = fifo.fifo_put(gButtons);
         GrContextForegroundSet(&sContext, ClrBlack);
         GrRectFill(&sContext, &rectFullScreen); // fill screen with black
         GrContextForegroundSet(&sContext, ClrYellow); // yellow text
 
+        gTriggerIndex = gADCBufferIndex + 512;
         while(j<gTriggerIndex+1){
             temp0 = triggerBuffer[1];
             temp1 = triggerBuffer[2];

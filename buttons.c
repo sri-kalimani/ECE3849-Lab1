@@ -21,6 +21,10 @@
 #include "inc/tm4c1294ncpdt.h"
 #include "Crystalfontz128x128_ST7735.h"
 
+volatile int fifo_head = 0; // index of the first item in the FIFO
+volatile int fifo_tail = 0; // index one step past the last item
+volatile DataType fifo[FIFO_SIZE];
+
 // public globals
 volatile uint32_t gButtons = 0; // debounced button state, one per bit in the lowest bits
                                 // button is pressed if its bit is 1, not pressed if 0
@@ -120,6 +124,36 @@ void ButtonInit(void)
     ADCSequenceStepConfigure(ADC0_BASE, 0, 1, ADC_CTL_CH17 | ADC_CTL_IE | ADC_CTL_END);  // Joystick VER(Y)
     ADCSequenceEnable(ADC0_BASE, 0);
 
+}
+
+// put data into the FIFO, skip if full
+// returns 1 on success, 0 if FIFO was full
+int fifo_put(DataType data)
+{
+    int new_tail = fifo_tail + 1;
+    if (new_tail >= FIFO_SIZE) new_tail = 0; // wrap around
+    if (fifo_head != new_tail) {    // if the FIFO is not full
+        fifo[fifo_tail] = data;     // store data into the FIFO
+        fifo_tail = new_tail;       // advance FIFO tail index
+        return 1;                   // success
+    }
+    return 0;   // full
+}
+
+// get data from the FIFO
+// returns 1 on success, 0 if FIFO was empty
+int fifo_get(DataType *data)
+{
+    if (fifo_head != fifo_tail) {   // if the FIFO is not empty
+        *data = fifo[fifo_head];    // read data from the FIFO
+//        IntMasterDisable();
+        fifo_head++;                // advance FIFO head index
+//        delay_us(1000);
+        if (fifo_head >= FIFO_SIZE) fifo_head = 0; // wrap around
+//        IntMasterEnable();
+        return 1;                   // success
+    }
+    return 0;   // empty
 }
 
 void ADC_ISR(void)
