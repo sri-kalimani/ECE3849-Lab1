@@ -135,10 +135,11 @@ void ButtonInit(void)
 // returns 1 on success, 0 if FIFO was full
 int fifo_put(char data)
 {
-    int new_tail = fifo_tail + 1;
+    int local_tail = fifo_tail;
+    int new_tail = local_tail + 1;
     if (new_tail >= FIFO_SIZE) new_tail = 0; // wrap around
     if (fifo_head != new_tail) {    // if the FIFO is not full
-        fifo[fifo_tail] = data;     // store data into the FIFO
+        fifo[local_tail] = data;     // store data into the FIFO
         fifo_tail = new_tail;       // advance FIFO tail index
         return 1;                   // success
     }
