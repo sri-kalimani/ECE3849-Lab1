@@ -49,7 +49,6 @@
 extern volatile char fifo[FIFO_SIZE];  // FIFO storage array
 extern volatile int fifo_head; // index of the first item in the FIFO
 extern volatile int fifo_tail; // index one step past the last item
-extern volatile char buttonArray[8];
 
 extern volatile uint32_t gButtons;	// debounced button state, one per bit in the lowest bits
 extern uint32_t gJoystick[2];       // joystick coordinates

@@ -84,8 +84,6 @@ int main(void)
 //        buttons = gButtons;
 //        buttonChar(buttons);
 
-        //getTest = fifo_get(&c);
-
         /* Joystick configuration for scaling   */
 
         if (buttons&0x20)               // if right joystick selected
@@ -106,6 +104,7 @@ int main(void)
             else
                 triggerSlope = 0;
         }
+
 
         gTriggerIndex = gADCBufferIndex + 512;
         while(j<gTriggerIndex+1){
@@ -177,7 +176,6 @@ int main(void)
 //        GrRectFill(&sContext, &rectFullScreen); // fill screen with black
 //        GrContextForegroundSet(&sContext, ClrYellow); // yellow text
 
-//        getTest = fifo_get();
 
 
     }
@@ -224,30 +222,30 @@ int main(void)
 }
 
 
-//void buttonChar(uint32_t buttons){
-//    if(buttons&0x01)        //USR_SW1
-//        fifo_put('1');
-//    else if(buttons&0x02)    //USR_SW2
-//        fifo_put('2');
-//    else if(buttons&0x04)    //S1
-//        fifo_put('A');
-//    else if(buttons&0x08)    //S2
-//        fifo_put('B');
-//    else if(buttons&0x10)    //Select
-//        fifo_put('S');
-//    else if(buttons&0x20)    //Right
-//        fifo_put('R');
-//    else if(buttons&0x40)    //Left
-//        fifo_put('L');
-//    else if(buttons&0x80)    //Up
-//        fifo_put('U');
-//    else if(buttons&0x100)   //Down
-//        fifo_put('D');
-//    else
-//        fifo_put('0');
-//
-//}
-//
+void buttonChar(uint32_t buttons){
+    if(buttons&0x01)        //USR_SW1
+        fifo_put('1');
+    else if(buttons&0x02)    //USR_SW2
+        fifo_put('2');
+    else if(buttons&0x04)    //S1
+        fifo_put('A');
+    else if(buttons&0x08)    //S2
+        fifo_put('B');
+    else if(buttons&0x10)    //Select
+        fifo_put('S');
+    else if(buttons&0x20)    //Right
+        fifo_put('R');
+    else if(buttons&0x40)    //Left
+        fifo_put('L');
+    else if(buttons&0x80)    //Up
+        fifo_put('U');
+    else if(buttons&0x100)   //Down
+        fifo_put('D');
+    else
+        fifo_put('0');
+
+}
+
 
 
 
