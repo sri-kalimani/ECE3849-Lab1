@@ -33,6 +33,7 @@ volatile float fVoltsPerDiv = 1.0;
 float fScale;
 int y[1024];
 
+//
 char buttonRead;
 char getTest;
 
@@ -125,6 +126,7 @@ int main(void)
         }
 
 
+        // store values from gADCBuffer to triggerBuffer
         gTriggerIndex = gADCBufferIndex + 512;
         while(j<gTriggerIndex+1){
                 temp0 = triggerBuffer[1];
@@ -137,10 +139,12 @@ int main(void)
 
         j = 0;
 
+        // Print time scale
         snprintf(str, sizeof(str), "20 us");
         GrContextForegroundSet(&sContext, ClrWhite);
         GrStringDraw(&sContext, str, /*length*/ -1, /*x*/ 0, /*y*/ 3, /*opaque*/ false);
 
+        // Print volts per division
         snprintf(str, sizeof(str), "%.1f mV", fVoltsPerDiv);
         GrContextForegroundSet(&sContext, ClrWhite);
         GrStringDraw(&sContext, str, /*length*/ -1, /*x*/ 50, /*y*/ 3, /*opaque*/ false);
@@ -180,6 +184,7 @@ int main(void)
             }
         }
 
+        // print waveform
         for(n = 0; n<128;n++){
               if (n != 0){
                   GrLineDraw(&sContext, n-1, y[n-1], n, y[n]);
@@ -197,6 +202,10 @@ int main(void)
     }
 }
 
+/*
+ * CPU load count
+ * Uses Timer3
+ */
 uint32_t cpu_load_count(void)
 {
     uint32_t i = 0;
