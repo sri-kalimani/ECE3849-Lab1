@@ -138,9 +138,6 @@ int main(void)
 
         j = 0;
 
-        GrContextForegroundSet(&sContext, ClrBlack);
-        GrRectFill(&sContext, &rectFullScreen); // fill screen with black
-
         snprintf(str, sizeof(str), "20 us");
         GrContextForegroundSet(&sContext, ClrWhite);
         GrStringDraw(&sContext, str, /*length*/ -1, /*x*/ 0, /*y*/ 3, /*opaque*/ false);
