@@ -16,6 +16,8 @@
 #include "Crystalfontz128x128_ST7735.h"
 #include <stdio.h>
 #include "buttons.h"
+#include "driverlib/timer.h"
+#include "inc/hw_memmap.h"
 
 uint32_t gSystemClock; // [Hz] system clock frequency
 volatile uint32_t gTime = 8345; // time in hundredths of a second
@@ -36,6 +38,12 @@ char buttonRead;
 char getTest;
 
 char p;
+char str[50];
+
+uint32_t count_unloaded = 0;
+uint32_t count_loaded = 0;
+float cpu_load = 0.0;
+
 
 //for interpreting gButtons and putting into FIFO
 uint32_t buttons; //local copy of gButtons
@@ -44,6 +52,7 @@ uint32_t buttons; //local copy of gButtons
 int triggerSlope =  0;
 
 void buttonChar(uint32_t buttons);
+uint32_t cpu_load_count(void);
 
 int main(void)
 {
@@ -64,6 +73,9 @@ int main(void)
     GrContextInit(&sContext, &g_sCrystalfontz128x128); // Initialize the grlib graphics context
     GrContextFontSet(&sContext, &g_sFontFixed6x8); // select font
     ButtonInit();
+
+    count_unloaded = cpu_load_count();
+
     IntMasterEnable();
 
     j = 0;
@@ -152,13 +164,13 @@ int main(void)
               y_old[n] = y[n];
         }
 
+        count_loaded = cpu_load_count();
+        cpu_load = 1.0f - (float)count_loaded/count_unloaded; // compute CPU load
+        snprintf(str, sizeof(str), "CPU Load = %03f", cpu_load*(100));
+        GrContextForegroundSet(&sContext, ClrYellow);
+        GrStringDraw(&sContext, str, /*length*/ -1, /*x*/ 0, /*y*/ 118, /*opaque*/ false);
+
         GrFlush(&sContext); // flush the frame buffer to the LCD
-//        GrContextForegroundSet(&sContext, ClrBlack);
-//        GrRectFill(&sContext, &rectFullScreen); // fill screen with black
-//        GrContextForegroundSet(&sContext, ClrYellow); // yellow text
-
-
-
     }
 
 
@@ -202,7 +214,15 @@ int main(void)
 //    }
 }
 
-
+uint32_t cpu_load_count(void)
+{
+    uint32_t i = 0;
+    TimerIntClear(TIMER3_BASE, TIMER_TIMA_TIMEOUT);
+    TimerEnable(TIMER3_BASE, TIMER_A); // start one-shot timer
+    while (!(TimerIntStatus(TIMER3_BASE, false) & TIMER_TIMA_TIMEOUT))
+        i++;
+    return i;
+}
 
 
 

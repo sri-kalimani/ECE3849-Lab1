@@ -52,10 +52,6 @@ void ButtonInit(void)
     TimerIntEnable(TIMER0_BASE, TIMER_TIMA_TIMEOUT);
     TimerEnable(TIMER0_BASE, TIMER_BOTH);
 
-//    TimerEnable(TIMER0_BASE, TIMER_A); // comment for CPU load testing
-//    TimerEnable(TIMER1_BASE, TIMER_A);
-//    TimerEnable(TIMER2_BASE, TIMER_A);
-
     // initialize interrupt controller to respond to timer interrupts
     IntPrioritySet(INT_TIMER0A, BUTTON_INT_PRIORITY);
     IntEnable(INT_TIMER0A);
@@ -135,11 +131,11 @@ void ButtonInit(void)
     ADCSequenceStepConfigure(ADC0_BASE, 0, 1, ADC_CTL_CH17 | ADC_CTL_IE | ADC_CTL_END);  // Joystick VER(Y)
     ADCSequenceEnable(ADC0_BASE, 0);
 
-//// initialize timer 3 in one-shot mode for polled timing
-//    SysCtlPeripheralEnable(SYSCTL_PERIPH_TIMER3);
-//    TimerDisable(TIMER3_BASE, TIMER_BOTH);
-//    TimerConfigure(TIMER3_BASE, TIMER_CFG_ONE_SHOT);
-//    TimerLoadSet(TIMER3_BASE, TIMER_A, gSystemClock - 1); // 1 sec interval
+// initialize timer 3 in one-shot mode for polled timing
+    SysCtlPeripheralEnable(SYSCTL_PERIPH_TIMER3);
+    TimerDisable(TIMER3_BASE, TIMER_BOTH);
+    TimerConfigure(TIMER3_BASE, TIMER_CFG_ONE_SHOT);
+    TimerLoadSet(TIMER3_BASE, TIMER_A, (gSystemClock*0.02)-(float)0.5); // 1 sec interval
 
 }
 
