@@ -138,7 +138,26 @@ int main(void)
 
         j = 0;
 
+        GrContextForegroundSet(&sContext, ClrBlack);
+        GrRectFill(&sContext, &rectFullScreen); // fill screen with black
+
+        snprintf(str, sizeof(str), "20 us");
+        GrContextForegroundSet(&sContext, ClrWhite);
+        GrStringDraw(&sContext, str, /*length*/ -1, /*x*/ 0, /*y*/ 3, /*opaque*/ false);
+
+        snprintf(str, sizeof(str), "%.1f mV", fVoltsPerDiv);
+        GrContextForegroundSet(&sContext, ClrWhite);
+        GrStringDraw(&sContext, str, /*length*/ -1, /*x*/ 50, /*y*/ 3, /*opaque*/ false);
+
+
+
         if(triggerSlope == 0){ //falling
+
+            GrContextForegroundSet(&sContext, ClrWhite);
+            GrLineDraw(&sContext,115, 3, 120, 3);
+            GrLineDraw(&sContext,115, 3, 115, 8);
+            GrLineDraw(&sContext,110, 8, 115, 8);
+
             if(triggerBuffer[0] < (ADC_OFFSET - 1) && triggerBuffer[2] > ADC_OFFSET){
               for(i=0; i<1024; i++){
                   gWaveformBuffer[i] = gADCBuffer[(gTriggerIndex - (512+i))];
@@ -149,6 +168,12 @@ int main(void)
             }
         }
         else{ //rising
+
+            GrContextForegroundSet(&sContext, ClrWhite);
+            GrLineDraw(&sContext,110, 3, 115, 3);
+            GrLineDraw(&sContext,115, 3, 115, 8);
+            GrLineDraw(&sContext,115, 8, 120, 8);
+
             if(triggerBuffer[0] > (ADC_OFFSET) && triggerBuffer[2] < (ADC_OFFSET-1)){
               for(i=0; i<1024; i++){
                   gWaveformBuffer[i] = gADCBuffer[(gTriggerIndex - (512+i))];
@@ -170,8 +195,8 @@ int main(void)
 
         count_loaded = cpu_load_count();
         cpu_load = 1.0f - (float)count_loaded/count_unloaded; // compute CPU load
-        snprintf(str, sizeof(str), "CPU Load = %03f", cpu_load*(100));
-        GrContextForegroundSet(&sContext, ClrYellow);
+        snprintf(str, sizeof(str), "CPU Load = %.2f %%", cpu_load*(100));
+        GrContextForegroundSet(&sContext, ClrWhite);
         GrStringDraw(&sContext, str, /*length*/ -1, /*x*/ 0, /*y*/ 118, /*opaque*/ false);
 
         GrFlush(&sContext); // flush the frame buffer to the LCD
