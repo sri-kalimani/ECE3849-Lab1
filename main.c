@@ -149,8 +149,6 @@ int main(void)
         GrContextForegroundSet(&sContext, ClrWhite);
         GrStringDraw(&sContext, str, /*length*/ -1, /*x*/ 50, /*y*/ 3, /*opaque*/ false);
 
-
-
         if(triggerSlope == 0){ //falling
 
             GrContextForegroundSet(&sContext, ClrWhite);
