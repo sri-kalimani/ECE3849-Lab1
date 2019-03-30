@@ -32,7 +32,6 @@ uint16_t sample;
 volatile float fVoltsPerDiv = 1.0;
 float fScale;
 int y[1024];
-int y_old[1024];
 
 char buttonRead;
 char getTest;
@@ -183,11 +182,9 @@ int main(void)
 
         for(n = 0; n<128;n++){
               if (n != 0){
-
-                  GrLineDraw(&sContext,n-1, y_old[n], n, y[n]); // print dots at the height of y
+                  GrLineDraw(&sContext, n-1, y[n-1], n, y[n]);
                   GrContextForegroundSet(&sContext, ClrYellow); // yellow text
               }
-              y_old[n] = y[n];
         }
 
         count_loaded = cpu_load_count();
