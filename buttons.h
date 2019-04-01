@@ -39,11 +39,11 @@
 #define ADC_BUFFER_SIZE 2048 // size must be a power of 2
 #define BUFFER_COPY_SIZE 1024
 #define ADC_BUFFER_WRAP(i) ((i) & (ADC_BUFFER_SIZE - 1)) // index wrapping macro
-#define ADC_OFFSET 1260
-#define ADC_OFFSET2 2045
+//#define ADC_OFFSET 1260
+#define ADC_OFFSET 2840
 #define VIN_RANGE 3.3
 #define PIXELS_PER_DIV 20
-#define ADC_BITS 10
+#define ADC_BITS 12
 
 #define FIFO_SIZE 11        // FIFO capacity is 1 item fewer
 extern volatile char fifo[FIFO_SIZE];  // FIFO storage array
@@ -58,7 +58,7 @@ extern uint32_t gJoystick[2];       // joystick coordinates
 extern volatile int32_t gADCBufferIndex;
 extern uint32_t gADCSamplingRate;   // [Hz] actual ADC sampling rate
 volatile int16_t gADCBuffer[ADC_BUFFER_SIZE]; // circular buffer
-volatile int32_t gWaveformBuffer[BUFFER_COPY_SIZE];
+volatile int16_t gWaveformBuffer[BUFFER_COPY_SIZE];
 volatile int32_t triggerBuffer[3];
 volatile uint32_t gADCErrors; // number of missed ADC deadlines
 

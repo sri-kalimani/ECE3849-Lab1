@@ -293,39 +293,32 @@ void ButtonISR(void) {
     }
 
     if (presses & 0x4){
-        gButtons = gButtons | 0x4;
         c = 'A';
         fifo_put(c);
     }
 
     if (presses & 0x8){
-        gButtons = gButtons | 0x8;
         c = 'B';
         fifo_put(c);
     }
 
     if (presses & 0x10){
-        gButtons = gButtons | 0x10;
         c = 'S';
         fifo_put(c);
     }
     if (presses & 0x20){
-        gButtons = gButtons | 0x20;
         c = 'R';
         fifo_put(c);
     }
     if (presses & 0x40){
-        gButtons = gButtons | 0x40;
         c = 'L';
         fifo_put(c);
     }
     if (presses & 0x80){
-        gButtons = gButtons | 0x80;
         c = 'U';
         fifo_put(c);
     }
     if (presses & 0x100){
-        gButtons = gButtons | 0x100;
         c = 'D';
         fifo_put(c);
     }

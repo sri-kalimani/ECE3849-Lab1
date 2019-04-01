@@ -31,7 +31,7 @@ volatile int i, j, k, l, n, m, q;
 uint16_t sample;
 volatile float fVoltsPerDiv = 1.0;
 float fScale;
-int y[1024];
+int16_t y[1024];
 
 //
 char buttonRead;
@@ -87,54 +87,79 @@ int main(void)
 
     while(1){
 
-        fifo_get(&p);
+        if (fifo_get(&p)) {
 
-        /* Joystick configuration for scaling   */
+            /* Joystick configuration for scaling   */
 
-        if (p == 'R')               // if right joystick selected
-            fVoltsPerDiv = 0.1;
-        if (p == 'L')               // if left joystick is selected
-            fVoltsPerDiv = 0.2;
-        if (p == 'U')               // if up joystick is selected
-            fVoltsPerDiv = 0.5;
-        if (p == 'D')              // if down joystick is selected
-            fVoltsPerDiv = 1.0;
+            switch (p) {
+            case 'R':               // if right joystick selected
+                fVoltsPerDiv = 0.1;
+                break;
+            case 'L':              // if left joystick is selected
+                fVoltsPerDiv = 0.2;
+                break;
+            case 'U':              // if up joystick is selected
+                fVoltsPerDiv = 0.5;
+                break;
+            case 'D':              // if down joystick is selected
+                fVoltsPerDiv = 1.0;
+                break;
+            case '1':
+                triggerSlope =! triggerSlope;
+                break;
+            }
+        }
 
         fScale = (VIN_RANGE * PIXELS_PER_DIV)/((1 << ADC_BITS) * fVoltsPerDiv);
-
-        buttons = gButtons;
-
-        //USR_SW1 switches trigger slope
-        if(buttons & 1){    //USR_SW1
-            triggerSlope =! triggerSlope;
-        }
-        else{
-            triggerSlope = triggerSlope;
-        }
 
         GrContextForegroundSet(&sContext, ClrBlack);
         GrRectFill(&sContext, &rectFullScreen); // fill screen with black
 
 
         //draw grid
-        for(m=-20; m<128; m+=20){
-            for(q=-20; q<128; q+=20){
-                GrLineDraw(&sContext, m, q, m+20, q);
-                GrLineDraw(&sContext, m, q, m, q+20);
-                GrContextForegroundSet(&sContext, ClrBlue); // blue text
+        GrContextForegroundSet(&sContext, ClrBlue); // blue lines
+        for(m=-16; m<LCD_HORIZONTAL_MAX; m+=PIXELS_PER_DIV){
+            for(q=-16; q<LCD_VERTICAL_MAX; q+=PIXELS_PER_DIV){
+                GrLineDraw(&sContext, m, q, m+PIXELS_PER_DIV, q);
+                GrLineDraw(&sContext, m, q, m, q+PIXELS_PER_DIV);
             }
         }
 
 
-        // store values from gADCBuffer to triggerBuffer
-        gTriggerIndex = gADCBufferIndex + 512;
-        while(j<gTriggerIndex+1){
-                temp0 = triggerBuffer[1];
-                temp1 = triggerBuffer[2];
-                triggerBuffer[0] = temp0;
-                triggerBuffer[1] = temp1;
-                triggerBuffer[2] = gADCBuffer[gTriggerIndex-j];
-                j++;
+        // store values from gADCBuffer to local variables and check for slope
+        gTriggerIndex = gADCBufferIndex - LCD_HORIZONTAL_MAX/2;
+        int cur_sample, last_sample;
+        last_sample = gADCBuffer[ADC_BUFFER_WRAP(gTriggerIndex)];
+
+        if (triggerSlope) {
+            for (j = 0; j < ADC_BUFFER_SIZE/2; j++) {
+                cur_sample = gADCBuffer[ADC_BUFFER_WRAP(gTriggerIndex--)];
+                if (cur_sample <= ADC_OFFSET && last_sample >= ADC_OFFSET) {
+                    // found falling trigger
+                    break;
+                }
+                last_sample = cur_sample;
+            }
+        }
+        else {
+
+            for (j = 0; j < ADC_BUFFER_SIZE/2; j++) {
+                cur_sample = gADCBuffer[ADC_BUFFER_WRAP(gTriggerIndex--)];
+                if (cur_sample >= ADC_OFFSET && last_sample <= ADC_OFFSET) {
+                    // found rising trigger
+                    break;
+                }
+                last_sample = cur_sample;
+            }
+
+        }
+
+        if (j >= ADC_BUFFER_SIZE/2) {
+            gTriggerIndex = gADCBufferIndex - LCD_HORIZONTAL_MAX/2;
+        }
+
+        for (j = 0; j < LCD_HORIZONTAL_MAX; j++) {
+            gWaveformBuffer[j] = gADCBuffer[ADC_BUFFER_WRAP(gTriggerIndex + j - LCD_HORIZONTAL_MAX/2)];
         }
 
         j = 0;
@@ -145,49 +170,33 @@ int main(void)
         GrStringDraw(&sContext, str, /*length*/ -1, /*x*/ 0, /*y*/ 3, /*opaque*/ false);
 
         // Print volts per division
-        snprintf(str, sizeof(str), "%.1f mV", fVoltsPerDiv);
+        snprintf(str, sizeof(str), "%.1f V", fVoltsPerDiv);
         GrContextForegroundSet(&sContext, ClrWhite);
         GrStringDraw(&sContext, str, /*length*/ -1, /*x*/ 50, /*y*/ 3, /*opaque*/ false);
 
-        if(triggerSlope == 0){ //falling
-
+        if(triggerSlope){ //falling edge
             GrContextForegroundSet(&sContext, ClrWhite);
             GrLineDraw(&sContext,115, 3, 120, 3);
             GrLineDraw(&sContext,115, 3, 115, 8);
             GrLineDraw(&sContext,110, 8, 115, 8);
-
-            if(triggerBuffer[0] < (ADC_OFFSET - 1) && triggerBuffer[2] > ADC_OFFSET){
-              for(i=0; i<1024; i++){
-                  gWaveformBuffer[i] = gADCBuffer[(gTriggerIndex - (512+i))];
-                  sample = gWaveformBuffer[i];
-                  y[i] = LCD_VERTICAL_MAX/2 -(int)(fScale * ((int)sample - ADC_OFFSET));
-               }
-              gTriggerIndex = gADCBufferIndex - 512;
-            }
         }
-        else{ //rising
-
+        else{ //rising edge
             GrContextForegroundSet(&sContext, ClrWhite);
             GrLineDraw(&sContext,110, 3, 115, 3);
             GrLineDraw(&sContext,115, 3, 115, 8);
             GrLineDraw(&sContext,115, 8, 120, 8);
-
-            if(triggerBuffer[0] > (ADC_OFFSET) && triggerBuffer[2] < (ADC_OFFSET-1)){
-              for(i=0; i<1024; i++){
-                  gWaveformBuffer[i] = gADCBuffer[(gTriggerIndex - (512+i))];
-                  sample = gWaveformBuffer[i];
-                  y[i] = LCD_VERTICAL_MAX/2 -(int)(fScale * ((int)sample - ADC_OFFSET));
-              }
-              gTriggerIndex = gADCBufferIndex - 512;
-            }
         }
 
-        // print waveform
-        for(n = 0; n<128;n++){
-              if (n != 0){
-                  GrLineDraw(&sContext, n-1, y[n-1], n, y[n]);
-                  GrContextForegroundSet(&sContext, ClrYellow); // yellow text
-              }
+        //draw waveform
+        GrContextForegroundSet(&sContext, ClrYellow);
+
+        for(n = 0; n<LCD_HORIZONTAL_MAX;n++){
+            sample = gWaveformBuffer[n];
+            y[n] = LCD_VERTICAL_MAX/2 -(int)(fScale * ((int)sample - ADC_OFFSET));
+
+            if (n != 0){
+                GrLineDraw(&sContext, n-1, y[n-1], n, y[n]);
+            }
         }
 
         count_loaded = cpu_load_count();
