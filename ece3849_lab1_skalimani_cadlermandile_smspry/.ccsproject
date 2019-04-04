@@ -13,6 +13,6 @@
 	<createSlaveProjects value=""/>
 	<templateProperties value="id=com.ti.common.project.core.emptyProjectWithMainTemplate,"/>
 	<filesToOpen value="main.c,"/>
-	<isTargetManual value="false"/>
+	<isTargetManual value="true"/>
 	<origin value="C:/Users/gene/Documents/Work/ECE 3849/workspace_v7/ece3849_lab0_starter"/>
 </projectOptions>
